@@ -1,6 +1,5 @@
 class Peix{
-  
-  
+    
   constructor(x,y,t){
     this.x = x;
     this.y = y;
@@ -29,5 +28,3 @@ class Peix{
     }
   }  
 }
-
-// made by chatgpt

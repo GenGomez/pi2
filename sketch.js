@@ -1,6 +1,3 @@
-//test
-//test Marti
-
 const gridSize = 8;
 let rectSize;
 const borderSize = 50;
@@ -13,6 +10,7 @@ let posY;
 let posX;
 let speed = 3;
 let llum = 1;
+
 function setup() {
   createCanvas(600, 600);
   rectSize = (height-borderSize)/gridSize;
@@ -35,18 +33,19 @@ function draw() {
     }
   }
   
-  if(keyIsDown(87) || keyIsDown(119)) {
+  if(keyIsDown(87)) {
     posY = posY - speed;
   }
 
-  if (keyIsDown(83) || keyIsDown(115)) {
+  if (keyIsDown(83)) {
     posY = posY + speed;
   }
-    if (keyIsDown(65) || keyIsDown(97)) {
+  
+  if (keyIsDown(65)) {
     posX = posX - speed;
   }
 
-  if (keyIsDown(68) || keyIsDown(100)) {
+  if (keyIsDown(68)) {
     posX = posX + speed;
   }
   if(posX < borderSize + (rectSize/4)){

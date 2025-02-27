@@ -1,3 +1,5 @@
+//test
+
 const gridSize = 8;
 let rectSize;
 const borderSize = 50;

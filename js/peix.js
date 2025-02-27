@@ -4,7 +4,7 @@ class Peix{
     this.x = x;
     this.y = y;
     this.t = t;
-    this.llum = 1;
+    this.llum = 2;
   }
   
   dibuixar(){
@@ -16,7 +16,7 @@ class Peix{
   }
   
   revelar(){
-    this.llum = 1;
+    this.llum = 2;
   }
   
   comparar(x,y){

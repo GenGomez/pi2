@@ -3,7 +3,7 @@ let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
-let nPeixos = 2;
+let nPeixos = 3;
 let peixos = [];
 let taulell = [];
 let posY;
@@ -11,9 +11,12 @@ let posX;
 let speed = 3;
 let llum = 1;
 let waves = [];
-
+let peixosImg = [];
 
 function setup() {
+  peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
+  peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
+  peixosImg[2] = loadImage("img/fish/whiteBigFish.png");
   createCanvas(800, 800);
   rectSize = (height-borderSize)/gridSize;
   posY = (height- (rectSize/2));
@@ -21,7 +24,6 @@ function setup() {
   for(let i = 0; i < nPeixos; i++){
     generarPeix();
   } 
-  console.log(peixos);
 }
 
 function draw() {
@@ -92,7 +94,6 @@ function generarPeix(){
   while(ocupat){
     x = floor(random(gridSize));
     y = floor(random(gridSize));
-    console.log(x + " "+ y)
     ocupat = false;
     if(y >= gridSize -2 && x <= ceil(gridSize/2) && x >= floor(gridSize/2)-1){
       ocupat = true
@@ -104,7 +105,7 @@ function generarPeix(){
 
     }
     }
-    let peix = new Peix(x,y,rectSize/2);
+    let peix = new Peix(x,y,rectSize*0.9,peixosImg);
     peixos.push(peix);
 }
 

@@ -1,9 +1,9 @@
-const gridSize = 8;
+const gridSize = 6;
 let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
-let nPeixos = 3;
+let nPeixos = 2;
 let peixos = [];
 let taulell = [];
 let posY;
@@ -14,7 +14,7 @@ let waves = [];
 
 
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(800, 800);
   rectSize = (height-borderSize)/gridSize;
   posY = (height- (rectSize/2));
   posX = (height+borderSize)/2;

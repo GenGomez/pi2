@@ -1,4 +1,4 @@
-const gridSize = 6;
+const gridSize = 12;
 let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
@@ -8,10 +8,17 @@ let peixos = [];
 let taulell = [];
 let posY;
 let posX;
-let speed = 3;
+let directX = 0;
+let directY = 0;
+let speed = 0.2;
 let llum = 1;
 let waves = [];
 let peixosImg = [];
+let timerSonar = 0;
+let cooldownSonar = 10000;
+let sonarUsos = 3;
+let sonarUsable = true;
+
 
 function setup() {
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
@@ -43,33 +50,20 @@ function draw() {
   }
   circle(posX,posY,rectSize/2);
 
-
+  
 
   for(let i = 0; i < nPeixos; i++){
     peixos[i].dibuixar()
   }
-  if(keyIsDown(32)) {
-    for(let i = 0; i < nPeixos; i++){
-      peixos[i].revelar()
-    }
-    waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
-  }
-  
-  if(keyIsDown(38)) {
-    posY = posY - speed;
+
+
+  if(timerSonar < millis()){
+    sonarUsable = true;
   }
 
-  if (keyIsDown(40)) {
-    posY = posY + speed;
-  }
+  posX = posX + (directX * speed * deltaTime);
+  posY = posY + (directY * speed * deltaTime);
   
-  if (keyIsDown(37)) {
-    posX = posX - speed;
-  }
-
-  if (keyIsDown(39)) {
-    posX = posX + speed;
-  }
   if(posX < borderSize + (rectSize/4)){
     posX = borderSize + (rectSize/4);
   }
@@ -77,7 +71,7 @@ function draw() {
     posY = borderSize + (rectSize/4);
   }
   
-   if(posX > width - (rectSize/4)){
+  if(posX > width - (rectSize/4)){
     posX = width - (rectSize/4);
   }
   if(posY > height - (rectSize/4)){
@@ -172,6 +166,62 @@ function dibuixarSonar(){
     // Remove wave when it fully fades
     if (wave.alpha <= 0 || wave.radius > maxSize) {
       waves.splice(i, 1);
+    }
+  }
+}
+
+function keyPressed(){
+  if(sonarUsable == true){
+    if(key === ' ') {
+      sonarUsable = false;
+      timerSonar = millis() + cooldownSonar;
+      print(timerSonar);
+      for(let i = 0; i < nPeixos; i++){
+        peixos[i].revelar()
+      }
+      waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
+    }
+  }
+  
+  if(key == 'ArrowUp' || key == 'W' || key == 'w') {
+    directY = -1;
+  }
+
+  if (key == 'ArrowDown' || key == 'S' || key == 's') {
+    directY = 1;
+  }
+  
+  if (key == 'ArrowLeft' || key == 'A' || key == 'a') {
+    directX = -1;
+  }
+
+  if (key == 'ArrowRight' || key == 'D' || key == 'd') {
+    directX = 1;
+  }
+}
+
+function keyReleased(){
+  if(key == 'ArrowUp' || key == 'W' || key == 'w') {
+    if(directY < 0){
+      directY = 0;
+    }
+  }
+
+  if (key == 'ArrowDown' || key == 'S' || key == 's') {
+    if(directY > 0){
+      directY = 0;
+    }
+  }
+  
+  if (key == 'ArrowLeft' || key == 'A' || key == 'a') {
+    if(directX < 0){
+      directX = 0;
+    }
+  }
+
+  if (key == 'ArrowRight' || key == 'D' || key == 'd') {
+    if(directX > 0){
+      directX = 0;
     }
   }
 }

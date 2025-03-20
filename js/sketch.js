@@ -55,19 +55,19 @@ function draw() {
     waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
   }
   
-  if(keyIsDown(87)) {
+  if(keyIsDown(38)) {
     posY = posY - speed;
   }
 
-  if (keyIsDown(83)) {
+  if (keyIsDown(40)) {
     posY = posY + speed;
   }
   
-  if (keyIsDown(65)) {
+  if (keyIsDown(37)) {
     posX = posX - speed;
   }
 
-  if (keyIsDown(68)) {
+  if (keyIsDown(39)) {
     posX = posX + speed;
   }
   if(posX < borderSize + (rectSize/4)){

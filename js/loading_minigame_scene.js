@@ -9,19 +9,9 @@ function setup() {
   textAlign(CENTER, CENTER);
   activat = false;
   millisInicial = millis();
-
- 
 }
 
 function draw() {
-  
-  
-  
-  if(keyIsDown(32)===true){
-      activat = true;
-      millisFinal = 5000+millis();
-      timer = 5000+millis();
-    
   if(activat){
     if(millisFinal > 0 ){
       print(millisFinal);
@@ -34,9 +24,12 @@ function draw() {
       millisFinal = timer-millisInicial;
       }
     }
-  }
+  }  
 
-  
-  
-  
+function keyPressed(){
+  if(key == ' '){
+    activat = true;
+    millisFinal = 5000+millis();
+    timer = 5000+millis();
+  }
 }

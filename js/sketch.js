@@ -19,6 +19,8 @@ let cooldownSonar = 10000;
 let sonarUsos = 3;
 let sonarUsable = true;
 
+let stat = 0;
+
 
 function setup() {
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
@@ -34,50 +36,52 @@ function setup() {
 }
 
 function draw() {
-  dibuixarTaulell()
-  fill(255,0,0);
-  let posXQ = round((posX - rectSize/4) /rectSize) - 1;
-  let posYQ = round((posY - rectSize/4) /rectSize) - 1;
-  if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
+  if(stat == 0){
+    dibuixarTaulell()
+    fill(255,0,0);
+    let posXQ = round((posX - rectSize/4) /rectSize) - 1;
+    let posYQ = round((posY - rectSize/4) /rectSize) - 1;
+    if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
+      for(let i = 0; i < nPeixos; i++){
+        peixos[i].revelar()
+      }
+    }
     for(let i = 0; i < nPeixos; i++){
-      peixos[i].revelar()
+      if(peixos[i].comparar(posXQ,posYQ)){
+        stat == 1;
+      }
     }
-  }
-  for(let i = 0; i < nPeixos; i++){
-    if(peixos[i].comparar(posXQ,posYQ)){
-      console.log("PESCANT!!!!")
+    circle(posX,posY,rectSize/2);
+    
+    for(let i = 0; i < nPeixos; i++){
+      peixos[i].dibuixar()
     }
-  }
-  circle(posX,posY,rectSize/2);
-
   
-
-  for(let i = 0; i < nPeixos; i++){
-    peixos[i].dibuixar()
-  }
-
-
-  if(timerSonar < millis()){
-    sonarUsable = true;
-  }
-
-  posX = posX + (directX * speed * deltaTime);
-  posY = posY + (directY * speed * deltaTime);
   
-  if(posX < borderSize + (rectSize/4)){
-    posX = borderSize + (rectSize/4);
-  }
-  if(posY < borderSize + (rectSize/4)){
-    posY = borderSize + (rectSize/4);
-  }
+    if(timerSonar < millis()){
+      sonarUsable = true;
+    }
   
-  if(posX > width - (rectSize/4)){
-    posX = width - (rectSize/4);
+    posX = posX + (directX * speed * deltaTime);
+    posY = posY + (directY * speed * deltaTime);
+    
+    if(posX < borderSize + (rectSize/4)){
+      posX = borderSize + (rectSize/4);
+    }
+    if(posY < borderSize + (rectSize/4)){
+      posY = borderSize + (rectSize/4);
+    }
+    
+    if(posX > width - (rectSize/4)){
+      posX = width - (rectSize/4);
+    }
+    if(posY > height - (rectSize/4)){
+      posY = height - (rectSize/4);
+    }  
   }
-  if(posY > height - (rectSize/4)){
-    posY = height - (rectSize/4);
+  else if(stat == 1){
+    
   }
-  
 
 }
 

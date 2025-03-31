@@ -1,5 +1,5 @@
 let millisInicial;
-let countdownDuration = 6000; // 5 seconds
+let countdownDuration = 6000;
 let activat = false;
 
 function setup() {
@@ -26,7 +26,7 @@ function draw() {
     }
 
   }  
-
+}
 function keyPressed(){
   if(key == ' '){
     activat = true;

@@ -18,9 +18,12 @@ let timerSonar = 0;
 let cooldownSonar = 10000;
 let sonarUsos = 3;
 let sonarUsable = true;
-
+let countdownDuration = 4000;
 let stat = 0;
-
+let indexPeix = 0;
+let letters = "JKL";
+let currentLetter;
+let fishScore = 1000;
 
 function setup() {
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
@@ -33,6 +36,9 @@ function setup() {
   for(let i = 0; i < nPeixos; i++){
     generarPeix();
   } 
+  textFont('Courier New');
+  textAlign(CENTER, CENTER);
+  millisInicial = millis();
 }
 
 function draw() {
@@ -48,7 +54,9 @@ function draw() {
     }
     for(let i = 0; i < nPeixos; i++){
       if(peixos[i].comparar(posXQ,posYQ)){
-        stat == 1;
+        indexPeix = i;
+        stat = 1;
+        millisInicial = millis();
       }
     }
     circle(posX,posY,rectSize/2);
@@ -80,7 +88,32 @@ function draw() {
     }  
   }
   else if(stat == 1){
-    
+    background(220);
+    timeLeft = countdownDuration - (millis() - millisInicial); 
+    if(timeLeft > 0) {
+      textSize(height/10 + 10);
+      text('PEIX TROBAT!', width / 2, height *0.4);
+      textSize(height/25);
+      text("PREPARA'T PER PESCAR", width / 2, height *0.5);
+      textSize(height/10 + 30);
+      text(floor(timeLeft / 1000), width / 2, height * 0.65);
+    } else {
+      stat = 2;
+      fishScore = 1000;
+      peixos.splice(indexPeix,1);
+      currentLetter = randomLetter();
+      nPeixos--;
+    } 
+  }
+  else if(stat == 2){
+    background(getBackgroundColor(currentLetter));
+    fill(255);
+    text("Press: " + currentLetter, width / 2, height / 2);
+    text("Timer: " + fishScore, width / 2, height / 2 + 40);
+    fishScore++;
+    if(fishScore >= 1000){
+      fishScore = 1000;
+    }
   }
 
 }
@@ -175,57 +208,89 @@ function dibuixarSonar(){
 }
 
 function keyPressed(){
-  if(sonarUsable == true){
-    if(key === ' ') {
-      sonarUsable = false;
-      timerSonar = millis() + cooldownSonar;
-      print(timerSonar);
-      for(let i = 0; i < nPeixos; i++){
-        peixos[i].revelar()
+  if(stat == 0){
+    if(sonarUsable == true){
+      if(key === ' ') {
+        sonarUsable = false;
+        timerSonar = millis() + cooldownSonar;
+        print(timerSonar);
+        for(let i = 0; i < nPeixos; i++){
+          peixos[i].revelar()
+        }
+        waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
       }
-      waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
+    }
+    
+    if(key == 'ArrowUp' || key == 'W' || key == 'w') {
+      directY = -1;
+    }
+  
+    if (key == 'ArrowDown' || key == 'S' || key == 's') {
+      directY = 1;
+    }
+    
+    if (key == 'ArrowLeft' || key == 'A' || key == 'a') {
+      directX = -1;
+    }
+  
+    if (key == 'ArrowRight' || key == 'D' || key == 'd') {
+      directX = 1;
     }
   }
-  
-  if(key == 'ArrowUp' || key == 'W' || key == 'w') {
-    directY = -1;
-  }
-
-  if (key == 'ArrowDown' || key == 'S' || key == 's') {
-    directY = 1;
-  }
-  
-  if (key == 'ArrowLeft' || key == 'A' || key == 'a') {
-    directX = -1;
-  }
-
-  if (key == 'ArrowRight' || key == 'D' || key == 'd') {
-    directX = 1;
+  else if(stat == 2){
+    if(key.toUpperCase() === currentLetter) {
+      currentLetter = randomLetter();
+      fishScore -= 100;
+      if(fishScore <= 0){
+        stat = 0;
+        directX = 0;
+        directY = 0;
+      }
+    } else {
+      fishScore += 100;
+        if(fishScore >= 1000){
+          fishScore = 1000;
+        }
+    }
   }
 }
 
 function keyReleased(){
-  if(key == 'ArrowUp' || key == 'W' || key == 'w') {
-    if(directY < 0){
-      directY = 0;
+  if(stat == 0){
+    if(key == 'ArrowUp' || key == 'W' || key == 'w') {
+      if(directY < 0){
+        directY = 0;
+      }
     }
-  }
-
-  if (key == 'ArrowDown' || key == 'S' || key == 's') {
-    if(directY > 0){
-      directY = 0;
-    }
-  }
   
-  if (key == 'ArrowLeft' || key == 'A' || key == 'a') {
-    if(directX < 0){
-      directX = 0;
+    if (key == 'ArrowDown' || key == 'S' || key == 's') {
+      if(directY > 0){
+        directY = 0;
+      }
+    }
+    
+    if (key == 'ArrowLeft' || key == 'A' || key == 'a') {
+      if(directX < 0){
+        directX = 0;
+      }
+    }
+  
+    if (key == 'ArrowRight' || key == 'D' || key == 'd') {
+      if(directX > 0){
+        directX = 0;
+      }
     }
   }
+}
 
-  if (key == 'ArrowRight' || key == 'D' || key == 'd') {
-    if(directX > 0){
-      directX = 0;
-    }
-  }
+
+
+function randomLetter() {
+  return letters.charAt(floor(random(letters.length)));
+}
+
+function getBackgroundColor(letter) {
+  if (letter === 'J') return color(0, 0, 255); // Blau
+  if (letter === 'K') return color(255, 0, 0); // Vermell
+  if (letter === 'L') return color(0, 255, 0); // Verd
 }

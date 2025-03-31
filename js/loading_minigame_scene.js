@@ -1,7 +1,6 @@
-let timer;
 let millisInicial;
-let millisFinal;
-let activat;
+let countdownDuration = 6000; // 5 seconds
+let activat = false;
 
 function setup() {
   createCanvas(400, 400);
@@ -11,19 +10,21 @@ function setup() {
   millisInicial = millis();
 }
 
+
 function draw() {
-  if(activat){
-    if(millisFinal > 0 ){
-      print(millisFinal);
-      background(220);
+  background(220);
+  if (activat) {
+    let timeLeft = countdownDuration - (millis() - millisInicial);
+
+    if (timeLeft > 0) {
       textSize(24);
-      text('HAS PESCAT UN PEIX!!!', height/2, width/5);
+      text('HAS PESCAT UN PEIX!!!', width / 2, height / 5);
       textSize(90);
-      text(floor(millisFinal/1000), height/2,width*3/5);
-      millisInicial = millis();
-      millisFinal = timer-millisInicial;
-      }
+      text(floor(timeLeft / 1000), width / 2, height * 3 / 5);
+    } else {
+      activat = false; // Stop the timer when it reaches zero
     }
+
   }  
 
 function keyPressed(){
@@ -31,5 +32,15 @@ function keyPressed(){
     activat = true;
     millisFinal = 5000+millis();
     timer = 5000+millis();
+  }
+}
+
+
+
+
+function keyPressed() {
+  if (keyCode === 32) { // Spacebar
+    activat = true;
+    millisInicial = millis(); // Start the timer
   }
 }

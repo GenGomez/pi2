@@ -3,7 +3,8 @@ let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
-let nPeixos = 3;
+let nPeixosIni = 3
+let nPeixos;
 let peixos = [];
 let taulell = [];
 let posY;
@@ -24,12 +25,16 @@ let indexPeix = 0;
 let letters = "JKL";
 let currentLetter;
 let fishScore = 1000;
+let timerGame;
+let gameTime;
+let timeGameLeft;
 
 function setup() {
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
   peixosImg[2] = loadImage("img/fish/whiteBigFish.png");
   createCanvas(800, 800);
+  nPeixos = nPeixosIni;
   rectSize = (height-borderSize)/gridSize;
   posY = (height- (rectSize/2));
   posX = (height+borderSize)/2;
@@ -38,12 +43,17 @@ function setup() {
   } 
   textFont('Courier New');
   textAlign(CENTER, CENTER);
-  millisInicial = millis();
+  timerGame = millis();
+  gameTime = 20000;
 }
 
 function draw() {
   if(stat == 0){
-    dibuixarTaulell()
+    timeGameLeft = gameTime - (millis() - timerGame);
+    if (timeGameLeft >=0){
+      stat = 4;
+    }
+    dibuixarTaulell();
     fill(255,0,0);
     let posXQ = round((posX - rectSize/4) /rectSize) - 1;
     let posYQ = round((posY - rectSize/4) /rectSize) - 1;
@@ -103,6 +113,14 @@ function draw() {
       peixos.splice(indexPeix,1);
       currentLetter = randomLetter();
       nPeixos--;
+      if(nPeixos == 0){
+        nPeixos = nPeixosIni
+        for(let i = 0; i<nPeixos; i++){
+          generarPeix();
+        }
+        posY = (height- (rectSize/2));
+        posX = (height+borderSize)/2;
+      }
     } 
   }
   else if(stat == 2){

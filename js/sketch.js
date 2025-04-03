@@ -115,6 +115,9 @@ function draw() {
       fishScore = 1000;
     }
   }
+  else if(stat == 3){
+    //ROGER EL QUE FACIS AL DRAW VA AQUI!!!
+  }
 
 }
 

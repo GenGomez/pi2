@@ -5,6 +5,7 @@ class Peix{
     this.y = y;
     this.t = t;
     this.llum = 1.5;
+    this.fishLenght;
     this.img = img[floor(random(3))];
   }
   
@@ -27,4 +28,13 @@ class Peix{
       return false;
     }
   }  
+  setMidaPeix(rMin, rMax){ // les variables es la resolució min i max
+    this.fishLenght =  random(rMin, rMax);
+  }
+  retornaMida(){ //pasa de resolució a cm
+    return round(map(fishLenght,300,700, 10, 50),2);
+  }
+  resizePeix(){
+    resize(this.fishLenght,0);
+  }
 }

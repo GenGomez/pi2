@@ -19,7 +19,7 @@ let timerSonar = 0;
 let cooldownSonar = 10000;
 let sonarUsos = 3;
 let sonarUsable = true;
-let countdownDuration = 4000;
+let countdownDuration = 3000;
 let stat = 0;
 let indexPeix = 0;
 let letters = "JKL";
@@ -106,7 +106,7 @@ function draw() {
       textSize(height/25);
       text("PREPARA'T PER PESCAR", width / 2, height *0.5);
       textSize(height/10 + 30);
-      text(floor(timeLeft / 1000), width / 2, height * 0.65);
+      text(floor(timeLeft / 1000) + 1, width / 2, height * 0.65);
     } else {
       stat = 2;
       fishScore = 1000;
@@ -132,6 +132,9 @@ function draw() {
     if(fishScore >= 1000){
       fishScore = 1000;
     }
+  }
+  else if(stat == 3){
+    //ROGER EL QUE FACIS AL DRAW VA AQUI!!!
   }
 
 }

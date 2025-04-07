@@ -44,15 +44,16 @@ function setup() {
   textFont('Courier New');
   textAlign(CENTER, CENTER);
   timerGame = millis();
-  gameTime = 20000;
+  gameTime = 120000;
 }
 
 function draw() {
   if(stat == 0){
     timeGameLeft = gameTime - (millis() - timerGame);
-    if (timeGameLeft >=0){
+    if (timeGameLeft <=0){
       stat = 4;
     }
+
     dibuixarTaulell();
     fill(255,0,0);
     let posXQ = round((posX - rectSize/4) /rectSize) - 1;
@@ -229,6 +230,7 @@ function dibuixarSonar(){
 }
 
 function keyPressed(){
+  console.log(key); // This will log the key pressed
   if(stat == 0){
     if(sonarUsable == true){
       if(key === ' ') {

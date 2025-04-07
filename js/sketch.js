@@ -28,6 +28,11 @@ let fishScore = 1000;
 let timerGame;
 let gameTime;
 let timeGameLeft;
+let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
+  "Compte, que amb aquest ritme acabaràs\n buidant tot el riu!",
+  "Avi, t’hauríem d’anomenar el mestre\n pescador virtual! Quin art!",
+  "Amb aquestes mans, podries pescar\n fins i tot un tauró!",
+  "No és sort, és talent! Ja pots donar\n classes de pesca!"];
 
 function setup() {
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
@@ -135,7 +140,16 @@ function draw() {
     }
   }
   else if(stat == 3){
-    //ROGER EL QUE FACIS AL DRAW VA AQUI!!!
+    background(180);
+    textSize(35);
+    text(felicitacio, width / 2, height / 5);
+    textSize(20);
+    text(round(map(peix.fishLenght,300,700, 10, 50),2)+"cm", width / 2, height * map(peix.fishLenght,300,700,0.6,0.5));
+    image(peix.image, width/2, height * 0.7);
+    countdownDuration = 7500;
+    if(timeGameLeft == 0){
+      stat = 0;
+    }
   }
 
 }
@@ -265,7 +279,7 @@ function keyPressed(){
       currentLetter = randomLetter();
       fishScore -= 100;
       if(fishScore <= 0){
-        stat = 0;
+        stat = 3;
         directX = 0;
         directY = 0;
       }

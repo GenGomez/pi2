@@ -3,7 +3,8 @@ let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
-let nPeixos = 3;
+let nPeixosIni = 3
+let nPeixos;
 let peixos = [];
 let taulell = [];
 let posY;
@@ -24,6 +25,14 @@ let indexPeix = 0;
 let letters = "JKL";
 let currentLetter;
 let fishScore = 1000;
+let timerGame;
+let gameTime;
+let timeGameLeft;
+let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
+  "Compte, que amb aquest ritme acabaràs\n buidant tot el riu!",
+  "Avi, t’hauríem d’anomenar el mestre\n pescador virtual! Quin art!",
+  "Amb aquestes mans, podries pescar\n fins i tot un tauró!",
+  "No és sort, és talent! Ja pots donar\n classes de pesca!"];
 
 let backgroundMinijocImg;
 let canyaImg;
@@ -42,6 +51,7 @@ function preload(){
 
 function setup() {
   createCanvas(800, 800);
+  nPeixos = nPeixosIni;
   rectSize = (height-borderSize)/gridSize;
   posY = (height- (rectSize/2));
   posX = (height+borderSize)/2;
@@ -52,11 +62,18 @@ function setup() {
   textAlign(CENTER, CENTER);
   imageMode(CENTER);
   millisInicial = millis();
+  timerGame = millis();
+  gameTime = 120000;
 }
 
 function draw() {
   if(stat == 0){
-    dibuixarTaulell()
+    timeGameLeft = gameTime - (millis() - timerGame);
+    if (timeGameLeft <=0){
+      stat = 4;
+    }
+
+    dibuixarTaulell();
     fill(255,0,0);
     let posXQ = round((posX - rectSize/4) /rectSize) - 1;
     let posYQ = round((posY - rectSize/4) /rectSize) - 1;
@@ -116,6 +133,14 @@ function draw() {
       peixos.splice(indexPeix,1);
       currentLetter = randomLetter();
       nPeixos--;
+      if(nPeixos == 0){
+        nPeixos = nPeixosIni
+        for(let i = 0; i<nPeixos; i++){
+          generarPeix();
+        }
+        posY = (height- (rectSize/2));
+        posX = (height+borderSize)/2;
+      }
     } 
   }
   else if(stat == 2){
@@ -139,7 +164,16 @@ function draw() {
     }
   }
   else if(stat == 3){
-    //ROGER EL QUE FACIS AL DRAW VA AQUI!!!
+    background(180);
+    textSize(35);
+    text(felicitacio, width / 2, height / 5);
+    textSize(20);
+    text(round(map(peix.fishLenght,300,700, 10, 50),2)+"cm", width / 2, height * map(peix.fishLenght,300,700,0.6,0.5));
+    image(peix.image, width/2, height * 0.7);
+    countdownDuration = 7500;
+    if(timeGameLeft == 0){
+      stat = 0;
+    }
   }
 
 }
@@ -234,6 +268,7 @@ function dibuixarSonar(){
 }
 
 function keyPressed(){
+  console.log(key); // This will log the key pressed
   if(stat == 0){
     if(sonarUsable == true){
       if(key === ' ') {
@@ -268,7 +303,7 @@ function keyPressed(){
       currentLetter = randomLetter();
       fishScore -= 100;
       if(fishScore <= 0){
-        stat = 0;
+        stat = 3;
         directX = 0;
         directY = 0;
       }

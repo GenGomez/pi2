@@ -10,7 +10,6 @@ class Peix{
   
   dibuixar(){
     tint(255,255*this.llum);
-    imageMode(CENTER);
     image(this.img,((this.x*rectSize) + borderSize) + rectSize/2, ((this.y*rectSize) + borderSize) + rectSize/2,this.t,this.t);
     this.llum = this.llum-0.01
   }

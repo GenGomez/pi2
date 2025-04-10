@@ -1,4 +1,4 @@
-const gridSize = 12;
+const gridSize = 5;
 let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
@@ -18,17 +18,29 @@ let timerSonar = 0;
 let cooldownSonar = 10000;
 let sonarUsos = 3;
 let sonarUsable = true;
-let countdownDuration = 3000;
+let countdownDuration = 1000;
 let stat = 0;
 let indexPeix = 0;
 let letters = "JKL";
 let currentLetter;
 let fishScore = 1000;
 
-function setup() {
+let backgroundMinijocImg;
+let canyaImg;
+let baixellMiniImg;
+
+function preload(){
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
   peixosImg[2] = loadImage("img/fish/whiteBigFish.png");
+
+  baixellMiniImg = loadImage("img/minigame/baxeillMinijoc.png");
+  canyaImg = loadImage("img/minigame/fishingRod.png");
+  backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
+
+}
+
+function setup() {
   createCanvas(800, 800);
   rectSize = (height-borderSize)/gridSize;
   posY = (height- (rectSize/2));
@@ -38,6 +50,7 @@ function setup() {
   } 
   textFont('Courier New');
   textAlign(CENTER, CENTER);
+  imageMode(CENTER);
   millisInicial = millis();
 }
 
@@ -107,9 +120,19 @@ function draw() {
   }
   else if(stat == 2){
     background(getBackgroundColor(currentLetter));
+    backgroundMinijocImg.resize(0,height);
+    baixellMiniImg.resize(width * 0.8,0)
+    tint(255,255);
+    image(backgroundMinijocImg,width/2,height/2);
+    image(baixellMiniImg,width * 0.25,height*0.25);
+    image(canyaImg,width * 0.25,height*0.25);
     fill(255);
+    strokeWeight(0);
     text("Press: " + currentLetter, width / 2, height / 2);
     text("Timer: " + fishScore, width / 2, height / 2 + 40);
+    strokeWeight(2);
+    let finishLine = map(fishScore,1000,0,height*0.8,height*0.1);
+    line(width * 0.2,height*0.1,width*0.2,finishLine);
     fishScore++;
     if(fishScore >= 1000){
       fishScore = 1000;

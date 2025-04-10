@@ -27,6 +27,7 @@ class Peix{
       return false;
     }
   }  
+  
   setMidaPeix(rMin, rMax){ // les variables es la resolució min i max
     this.fishLenght =  random(rMin, rMax);
   }

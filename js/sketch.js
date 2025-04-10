@@ -75,8 +75,8 @@ function draw() {
 
     dibuixarTaulell();
     fill(255,0,0);
-    let posXQ = round((posX - rectSize/4) /rectSize) - 1;
-    let posYQ = round((posY - rectSize/4) /rectSize) - 1;
+    let posXQ = round(((posX + borderSize) - rectSize/4) /rectSize) - 1;
+    let posYQ = round(((posY + borderSize) - rectSize/4) /rectSize) - 1;
     if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
       for(let i = 0; i < nPeixos; i++){
         peixos[i].revelar()
@@ -146,18 +146,20 @@ function draw() {
   else if(stat == 2){
     background(getBackgroundColor(currentLetter));
     backgroundMinijocImg.resize(0,height);
-    baixellMiniImg.resize(width * 0.8,0)
+    baixellMiniImg.resize(width * 0.8,0);
+    canyaImg.resize(width * 0.15,0);
     tint(255,255);
     image(backgroundMinijocImg,width/2,height/2);
+    image(canyaImg,width * 0.45,height*0.13);
     image(baixellMiniImg,width * 0.25,height*0.25);
-    image(canyaImg,width * 0.25,height*0.25);
+    
     fill(255);
     strokeWeight(0);
     text("Press: " + currentLetter, width / 2, height / 2);
     text("Timer: " + fishScore, width / 2, height / 2 + 40);
     strokeWeight(2);
     let finishLine = map(fishScore,1000,0,height*0.8,height*0.1);
-    line(width * 0.2,height*0.1,width*0.2,finishLine);
+    line(width * 0.52,height*0.061,width*0.52,finishLine);
     fishScore++;
     if(fishScore >= 1000){
       fishScore = 1000;

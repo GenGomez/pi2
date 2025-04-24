@@ -26,6 +26,7 @@ let letters = "JKL";
 let currentLetter;
 let fishScore = 1000;
 let minFishScore = 1000;
+let scoreChange = 130;
 let timerGame;
 let gameTime;
 let timeGameLeft;
@@ -333,7 +334,7 @@ function keyPressed(){
   else if(stat == 2){
     if(key.toUpperCase() === currentLetter) {
       currentLetter = randomLetter();
-      fishScore -= 150;
+      fishScore -= (scoreChange + 20);
       if(fishScore <= 0){
         peixos.splice(indexPeix,1);
         stat = 0;
@@ -341,7 +342,7 @@ function keyPressed(){
         directY = 0;
       }
     } else {
-      fishScore += 100;
+      fishScore += scoreChange;
         if(fishScore >= minFishScore){
           fishScore = minFishScore;
         }

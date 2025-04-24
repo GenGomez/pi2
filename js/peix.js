@@ -5,8 +5,8 @@ class Peix{
     this.y = y;
     this.t = t;
     this.llum = 1.5;
-    this.fishLenght;
     this.img = img[floor(random(3))];
+    this.fishLenght = random(300,700);
   }
   
   dibuixar(){

@@ -28,6 +28,8 @@ let fishScore = 1000;
 let timerGame;
 let gameTime;
 let timeGameLeft;
+let pausedTime = 0; // Stores how much time was left when paused
+let isTimerPaused = false; // Tracks if timer is paused
 
 function setup() {
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
@@ -44,17 +46,26 @@ function setup() {
   textFont('Courier New');
   textAlign(CENTER, CENTER);
   timerGame = millis();
-  gameTime = 120000;
+  gameTime = 20000;
 }
 
 function draw() {
   if(stat == 0){
-    timeGameLeft = gameTime - (millis() - timerGame);
-    if (timeGameLeft <=0){
-      stat = 4;
+    if (isTimerPaused) {
+      timerGame = millis() - (gameTime - pausedTime);
+      isTimerPaused = false;
     }
-
+    timeGameLeft = gameTime - (millis() - timerGame);
+    if (timeGameLeft <= 0) {
+      stat = 4; // Game over
+    }
+    
+    let bgOpacity = map(timeGameLeft, gameTime, 0, 0, 255); // Map timeLeft to opacity
+    background(222, 222, 222, bgOpacity); // Apply opacity to the background color
     dibuixarTaulell();
+  
+    rect(0,width,0,height);
+
     fill(255,0,0);
     let posXQ = round((posX - rectSize/4) /rectSize) - 1;
     let posYQ = round((posY - rectSize/4) /rectSize) - 1;
@@ -68,6 +79,8 @@ function draw() {
         indexPeix = i;
         stat = 1;
         millisInicial = millis();
+        pausedTime = gameTime - (millis() - timerGame);
+        isTimerPaused = true;
       }
     }
     circle(posX,posY,rectSize/2);
@@ -164,6 +177,7 @@ function generarPeix(){
 
 
 function dibuixarTaulell(){
+  
   background(222);
   fill(255);
   stroke(0);

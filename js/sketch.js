@@ -38,7 +38,7 @@ let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no teni
   "Avi, t’hauríem d’anomenar el mestre\n pescador virtual! Quin art!",
   "Amb aquestes mans, podries pescar\n fins i tot un tauró!",
   "No és sort, és talent! Ja pots donar\n classes de pesca!"];
-
+let felicitacio
 
 let backgroundMinijocImg;
 let canyaImg;
@@ -72,7 +72,7 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
-  gameTime = 20000; //duracio partida
+  gameTime = 200000; //duracio partida
 }
 
 function draw() {
@@ -196,15 +196,21 @@ function draw() {
     }
   }
   else if(stat == 3){
-    background(180);
-    textSize(35);
-    text(felicitacio, width / 2, height / 5);
-    textSize(20);
-    text(round(map(peix.fishLenght,300,700, 10, 50),2)+"cm", width / 2, height * map(peix.fishLenght,300,700,0.6,0.5));
-    image(peix.img, width/2, height * 0.7);
-    countdownDuration = 7500;
-    if(timeGameLeft == 0){
+    timeLeft = countdownDuration - (millis() - millisInicial); 
+    if(timeLeft > 0) {
+      background(180);
+      textSize(35);
+      text(felicitacio, width / 2, height / 5);
+      textSize(20);
+      text(round(map(peixos[indexPeix].fishLenght,10,100, 10, 50),2)+"cm", width / 2, height * map(peixos[indexPeix].fishLenght,10,100,0.6,0.5));
+      push();
+      image(peixos[indexPeix].img, width/2, height * 0.7);
+    }else{
+      countdownDuration = 1000;
+      peixos.splice(indexPeix,1);
       stat = 0;
+      directX = 0;
+      directY = 0;
     }
   }
 
@@ -234,7 +240,7 @@ function generarPeix(){
 
 
 function dibuixarTaulell(){
-  
+
   background(222);
   fill(255);
   stroke(0);
@@ -336,10 +342,9 @@ function keyPressed(){
       currentLetter = randomLetter();
       fishScore -= (scoreChange + 20);
       if(fishScore <= 0){
-        peixos.splice(indexPeix,1);
-        stat = 0;
-        directX = 0;
-        directY = 0;
+        stat = 3;
+        felicitacio = random(felicitacions);
+        millisInicial = millis();
       }
     } else {
       fishScore += scoreChange;

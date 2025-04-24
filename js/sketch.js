@@ -25,6 +25,7 @@ let indexPeix = 0;
 let letters = "JKL";
 let currentLetter;
 let fishScore = 1000;
+let minFishScore = 1000;
 let timerGame;
 let gameTime;
 let timeGameLeft;
@@ -100,6 +101,7 @@ function draw() {
     }
     for(let i = 0; i < nPeixos; i++){
       if(peixos[i].comparar(posXQ,posYQ)){
+        print(peixos[i].fishLenght);
         indexPeix = i;
         stat = 1;
         millisInicial = millis();
@@ -147,7 +149,8 @@ function draw() {
       text(floor(timeLeft / 1000) + 1, width / 2, height * 0.65);
     } else {
       stat = 2;
-      fishScore = 1000;
+      fishScore = map(peixos[indexPeix].fishLenght,10,100,100,1000);
+      minFishScore = fishScore;
       currentLetter = randomLetter();
       nPeixos--;
       if(nPeixos == 0){
@@ -187,8 +190,8 @@ function draw() {
     image(peixos[indexPeix].img,0,0,drawSize,drawSize);
     pop();
     fishScore++;
-    if(fishScore >= 1000){
-      fishScore = 1000;
+    if(fishScore >= minFishScore){
+      fishScore = minFishScore;
     }
   }
   else if(stat == 3){
@@ -330,7 +333,7 @@ function keyPressed(){
   else if(stat == 2){
     if(key.toUpperCase() === currentLetter) {
       currentLetter = randomLetter();
-      fishScore -= 100;
+      fishScore -= 150;
       if(fishScore <= 0){
         peixos.splice(indexPeix,1);
         stat = 0;
@@ -339,8 +342,8 @@ function keyPressed(){
       }
     } else {
       fishScore += 100;
-        if(fishScore >= 1000){
-          fishScore = 1000;
+        if(fishScore >= minFishScore){
+          fishScore = minFishScore;
         }
     }
   }

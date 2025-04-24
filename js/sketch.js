@@ -71,7 +71,7 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
-  gameTime = 20000;
+  gameTime = 20000; //duracio partida
 }
 
 function draw() {

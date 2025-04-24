@@ -38,6 +38,8 @@ let backgroundMinijocImg;
 let canyaImg;
 let baixellMiniImg;
 
+let pescat;
+
 function preload(){
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
@@ -61,6 +63,7 @@ function setup() {
   textFont('Courier New');
   textAlign(CENTER, CENTER);
   imageMode(CENTER);
+  angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
   gameTime = 120000;
@@ -130,7 +133,6 @@ function draw() {
     } else {
       stat = 2;
       fishScore = 1000;
-      peixos.splice(indexPeix,1);
       currentLetter = randomLetter();
       nPeixos--;
       if(nPeixos == 0){
@@ -144,7 +146,6 @@ function draw() {
     } 
   }
   else if(stat == 2){
-    background(getBackgroundColor(currentLetter));
     backgroundMinijocImg.resize(0,height);
     baixellMiniImg.resize(width * 0.8,0);
     canyaImg.resize(width * 0.15,0);
@@ -152,14 +153,24 @@ function draw() {
     image(backgroundMinijocImg,width/2,height/2);
     image(canyaImg,width * 0.45,height*0.13);
     image(baixellMiniImg,width * 0.25,height*0.25);
-    
     fill(255);
     strokeWeight(0);
-    text("Press: " + currentLetter, width / 2, height / 2);
-    text("Timer: " + fishScore, width / 2, height / 2 + 40);
+    //text("Press: " + currentLetter, width / 2, height / 2);
+    //text("Timer: " + fishScore, width / 2, height / 2 + 40);
     strokeWeight(2);
-    let finishLine = map(fishScore,1000,0,height*0.8,height*0.1);
+    let finishLine = map(fishScore,1000,0,height*0.6,height*0.1);
     line(width * 0.52,height*0.061,width*0.52,finishLine);
+    push();
+    //let drawSize = map(peixos[indexPeix].fishLenght,10,100,100,300);
+    let drawSize = map(peixos[indexPeix].fishLenght,10,100,100,300);
+    translate((width * 0.52), finishLine + (drawSize * 0.4));
+    fill(0,0);
+    strokeWeight(20);
+    stroke(getBackgroundColor(currentLetter));
+    circle(0,0,drawSize);
+    rotate(90);
+    image(peixos[indexPeix].img,0,0,drawSize,drawSize);
+    pop();
     fishScore++;
     if(fishScore >= 1000){
       fishScore = 1000;
@@ -171,7 +182,7 @@ function draw() {
     text(felicitacio, width / 2, height / 5);
     textSize(20);
     text(round(map(peix.fishLenght,300,700, 10, 50),2)+"cm", width / 2, height * map(peix.fishLenght,300,700,0.6,0.5));
-    image(peix.image, width/2, height * 0.7);
+    image(peix.img, width/2, height * 0.7);
     countdownDuration = 7500;
     if(timeGameLeft == 0){
       stat = 0;
@@ -305,7 +316,8 @@ function keyPressed(){
       currentLetter = randomLetter();
       fishScore -= 100;
       if(fishScore <= 0){
-        stat = 3;
+        peixos.splice(indexPeix,1);
+        stat = 0;
         directX = 0;
         directY = 0;
       }
@@ -353,7 +365,7 @@ function randomLetter() {
 }
 
 function getBackgroundColor(letter) {
-  if (letter === 'J') return color(0, 0, 255); // Blau
-  if (letter === 'K') return color(255, 0, 0); // Vermell
-  if (letter === 'L') return color(0, 255, 0); // Verd
+  if (letter === 'J') return color(0, 0, 255,204); // Blau
+  if (letter === 'K') return color(255, 0, 0,204); // Vermell
+  if (letter === 'L') return color(0, 255, 0,204); // Verd
 }

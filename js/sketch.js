@@ -44,6 +44,7 @@ let baixellMiniImg;
 let numDia;
 let pescat;
 
+// array de imatges
 let baixellImg =[];
 felicitacionsDia = [
   "Una nit més, un peix més, una història més.",

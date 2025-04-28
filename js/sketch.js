@@ -96,16 +96,13 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
-  gameTime = 20000; //duracio partida
+  gameTime = 10000; //duracio partida
 }
 
 function draw() {
   if(stat == 0){
-    if (isTimerPaused) {
-      timerGame = millis() - (gameTime - pausedTime);
-      isTimerPaused = false;
-    }
-    timeGameLeft = gameTime - (millis() - timerGame);
+    gameTime = gameTime + deltaTime;
+    timeGameLeft = timeGameLeft - gameTime;
     if (timeGameLeft <= 0) {
       viu = false;
       felicitacioFinal = felicitacionsFinal[floor(random(0, felicitacionsFinal.length))];
@@ -113,11 +110,7 @@ function draw() {
       stat = 4; // DiaComplert / Game over (depen si esta viu o no)
     }
     
-    let bgOpacity = map(timeGameLeft, gameTime, 0, 0, 255); // Map timeLeft to opacity
-    background(222, 222, 222, bgOpacity); // Apply opacity to the background color
     dibuixarTaulell();
-  
-    rect(0,width,0,height);
 
     fill(255,0,0);
     let posXQ = round(((posX + borderSize) - rectSize/4) /rectSize) - 1;
@@ -164,6 +157,12 @@ function draw() {
     if(posY > height - (rectSize/4)){
       posY = height - (rectSize/4);
     }  
+
+    //nit
+    let nitOpacity = map(timeGameLeft, gameTime, 0, 0, 255); // Map timeLeft to opacity
+    fill(0,0,0,nitOpacity);
+    rect(0,width,0,height);
+
   }
   else if(stat == 1){
     background(220);
@@ -208,7 +207,6 @@ function draw() {
     let finishLine = map(fishScore,1000,0,height*0.6,height*0.1);
     line(width * 0.52,height*0.061,width*0.52,finishLine);
     push();
-    //let drawSize = map(peixos[indexPeix].fishLenght,10,100,100,300);
     let drawSize = map(peixos[indexPeix].fishLenght,10,100,100,300);
     translate((width * 0.52), finishLine + (drawSize * 0.4));
     fill(0,0);

@@ -45,11 +45,26 @@ let canyaImg;
 let baixellMiniImg;
 
 let pescat;
+let baixellImg =[];
 
 function preload(){
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
   peixosImg[2] = loadImage("img/fish/whiteBigFish.png");
+
+  baixellImg[0] = [];
+  baixellImg[1] = [];
+  baixellImg[2] = [];
+  baixellImg[1][1] = loadImage("img/ship/0,-1.png");
+  baixellImg[1][0] = loadImage("img/ship/0,-1.png");
+  baixellImg[1][2] = loadImage("img/ship/0,1.png");
+  baixellImg[2][0] = loadImage("img/ship/1,-1.png");
+  baixellImg[2][2] = loadImage("img/ship/1,1.png");
+  baixellImg[2][1] = loadImage("img/ship/1,0.png");
+  baixellImg[0][0] = loadImage("img/ship/-1,-1.png");
+  baixellImg[0][2] = loadImage("img/ship/-1,1.png");
+  baixellImg[0][1] = loadImage("img/ship/-1,0.png");
+  
 
   baixellMiniImg = loadImage("img/minigame/baxeillMinijoc.png");
   canyaImg = loadImage("img/minigame/fishingRod.png");
@@ -103,8 +118,12 @@ function draw() {
         isTimerPaused = true;
       }
     }
-    circle(posX,posY,rectSize/2);
+
     
+    //circle(posX,posY,rectSize/2);
+    dibuixarBaixell(posX,posY,rectSize);
+
+
     for(let i = 0; i < nPeixos; i++){
       peixos[i].dibuixar()
     }
@@ -212,6 +231,15 @@ function draw() {
     }
   }
 
+}
+
+function dibuixarBaixell(x,y,size){
+  print(directX);
+  print(directY);
+  let imgB = baixellImg[directX+1][directY+1]
+  tint(255,255);
+  image(imgB,x,y,size,size);
+  baixellImg[1][1] = imgB;
 }
 
 

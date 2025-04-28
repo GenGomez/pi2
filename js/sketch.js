@@ -19,7 +19,7 @@ let timerSonar = 0;
 let cooldownSonar = 10000;
 let sonarUsos = 3;
 let sonarUsable = true;
-let countdownDuration = 1000;
+let countdownDuration = 10000;
 let stat = 0;
 let indexPeix = 0;
 let letters = "JKL";
@@ -30,7 +30,6 @@ let scoreChange = 130;
 let timerGame;
 let gameTime;
 let timeGameLeft;
-
 let pausedTime = 0; // Stores how much time was left when paused
 let isTimerPaused = false;
 let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
@@ -38,14 +37,40 @@ let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no teni
   "Avi, t’hauríem d’anomenar el mestre\n pescador virtual! Quin art!",
   "Amb aquestes mans, podries pescar\n fins i tot un tauró!",
   "No és sort, és talent! Ja pots donar\n classes de pesca!"];
-let felicitacio
-
+let felicitacio;
 let backgroundMinijocImg;
 let canyaImg;
 let baixellMiniImg;
-
+let numDia;
 let pescat;
+
 let baixellImg =[];
+felicitacionsDia = [
+  "Una nit més, un peix més, una història més.",
+  "El mar ens ha posat a prova... i avui hem guanyat!",
+  "Quan la foscor cau, només els valents tornen a casa.",
+  "Aquesta nit el vent ens ha xiuxiuejat, i nosaltres li hem respost amb coratge.",
+  "No tots els herois porten capa; alguns portem xarxes i records salats.",
+  "Hem pescat més que peixos: hem pescat vida!",
+  "Una nit lluitant amb les onades, un dia més per brindar amb els amics.",
+  "Sobreviure al mar és honorar la vida.",
+  "La mar no regala res... però avui ens ha deixat tornar.",
+  "No és només pescar, és vèncer la nit i tornar a explicar-ho."];
+felicitacionsFinal = [
+      "Has resistit {X} dies entre onades i vents.\n El mar t’espera de nou, capità!",
+      "Cada dia al mar et fa més fort.\n {X} dies superats! Estàs a punt per conquerir-ne molts més.",
+      "{X} dies de pesca, {X} dies de glòria.\n Descansa... i torna-hi amb força renovada!",
+      "El teu viatge marí ja té {X} dies d’història.\n La propera aventura ja t’està cridant.",
+      "Has dominat el mar durant {X} dies.\n Imagina tot el que encara pots aconseguir!",
+      "{X} dies navegant, pescant i lluitant: ets pur esperit de mar.\n El millor encara ha d’arribar!",
+      "Has sobreviscut {X} dies amb coratge.\n La pròxima expedició serà encara més gran!",
+      "Després de {X} dies plens de reptes, mereixes una pausa...\n però el mar no oblida els seus herois.",
+      "Cada dia que passes al mar et transforma.\n Amb {X} dies superats, ets més llegenda que pescador!",
+      "El mar et coneix pel teu nom.\n {X} dies pescant són només el principi d'una gran història."];
+  viu = true;
+  numDia = 0;
+  felicitacioDia;
+  felicitacioFinal;
 
 function preload(){
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
@@ -95,7 +120,10 @@ function draw() {
     gameTime = gameTime + deltaTime;
     timeGameLeft = timeGameLeft - gameTime;
     if (timeGameLeft <= 0) {
-      stat = 4; // Game over
+      viu = false;
+      felicitacioFinal = felicitacionsFinal[floor(random(0, felicitacionsFinal.length))];
+      felicitacioDia = felicitacionsDia[floor(random(0, felicitacionsDia.length))]; //cridar abans doncs aixi apreix cada cop una diferent però no es crida mes dun cop en l'estat 4 
+      stat = 4; // DiaComplert / Game over (depen si esta viu o no)
     }
     
     dibuixarTaulell();
@@ -173,6 +201,7 @@ function draw() {
       currentLetter = randomLetter();
       nPeixos--;
       if(nPeixos == 0){
+        numDia ++;
         nPeixos = nPeixosIni
         for(let i = 0; i<nPeixos; i++){
           generarPeix();
@@ -219,18 +248,28 @@ function draw() {
       textSize(35);
       text(felicitacio, width / 2, height / 5);
       textSize(20);
-      text(round(map(peixos[indexPeix].fishLenght,10,100, 10, 50),2)+"cm", width / 2, height * map(peixos[indexPeix].fishLenght,10,100,0.6,0.5));
+      text(round(map(peixos[indexPeix].fishLenght,10,100, 10, 50),2)+"cm", width / 2, height * 0.9);
       push();
       image(peixos[indexPeix].img, width/2, height * 0.7);
     }else{
-      countdownDuration = 1000;
+      countdownDuration = 10000;
       peixos.splice(indexPeix,1);
       stat = 0;
       directX = 0;
       directY = 0;
     }
+  }else if(stat == 4){
+    background(220);
+      if(viu){
+      textSize(22);
+      text(felicitacioDia, width / 2, height / 4);
+      textSize(20);
+      text("Dia "+numDia+" sobreviscut",width / 2, height / 5);
+      }else{
+        textSize(20);
+        text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 4);
+      }
   }
-
 }
 
 function dibuixarBaixell(x,y,size){

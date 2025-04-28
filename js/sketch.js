@@ -237,6 +237,9 @@ function draw() {
       stat = 0;
       directX = 0;
       directY = 0;
+        stat = 0;
+
+
     }
   }else if(stat == 4){
     background(220);

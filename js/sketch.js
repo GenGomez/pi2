@@ -104,6 +104,9 @@ function preload(){
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
   soundFormats('mp3','wav');
   musica_bg = loadSound('audio/bg_music.wav');
+  audio_sonar = loadSound('audio/bg_music.wav');
+  audio_sonar1 = loadSound('audio/bg_music.wav');
+  audio_sonar2 = loadSound('audio/bg_music.wav');
 
 
 }
@@ -347,6 +350,9 @@ function dibuixarTaulell(){
 
 function dibuixarSonar(){
   for (let i = waves.length - 1; i >= 0; i--) {
+    audio_sonar.play();
+    audio_sonar1.play();
+    audio_sonar2.play();
     let wave = waves[i];
     
     // Stroke color with fading effect

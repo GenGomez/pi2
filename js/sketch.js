@@ -44,6 +44,11 @@ let baixellMiniImg;
 let numDia;
 let pescat;
 
+// stat == 0 pescant amb el baixell
+// stat == 1 preparat per pescar
+// stat == 2 minijoc de pesca J K L
+// stat == 3 felicitacio per pescar
+
 // array de imatges
 let baixellImg =[];
 felicitacionsDia = [
@@ -139,7 +144,6 @@ function draw() {
     }
     for(let i = 0; i < nPeixos; i++){
       if(peixos[i].comparar(posXQ,posYQ)){
-        print(peixos[i].fishLenght);
         indexPeix = i;
         stat = 1;
         millisInicial = millis();
@@ -148,15 +152,12 @@ function draw() {
       }
     }
 
-    
-    //circle(posX,posY,rectSize/2);
-    dibuixarBaixell(posX,posY,rectSize);
-
-
     for(let i = 0; i < nPeixos; i++){
       peixos[i].dibuixar()
     }
   
+    //circle(posX,posY,rectSize/2);
+    dibuixarBaixell(posX,posY,rectSize);
   
     if(timerSonar < millis()){
       sonarUsable = true;

@@ -43,7 +43,7 @@ let canyaImg;
 let baixellMiniImg;
 let numDia;
 let pescat;
-
+let musica;
 // array de imatges
 let baixellImg =[];
 felicitacionsDia = [
@@ -70,8 +70,8 @@ felicitacionsFinal = [
       "El mar et coneix pel teu nom.\n {X} dies pescant són només el principi d'una gran història."];
   viu = true;
   numDia = 0;
-  felicitacioDia;
-  felicitacioFinal;
+  let felicitacioDia;
+  let felicitacioFinal;
 
 function preload(){
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
@@ -95,6 +95,9 @@ function preload(){
   baixellMiniImg = loadImage("img/minigame/baxeillMinijoc.png");
   canyaImg = loadImage("img/minigame/fishingRod.png");
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
+  soundFormats('mp3','wav');
+  musica_bg = loadSound('audio/bg_music.wav');
+  musica = loadSound("musica.wav");
 
 }
 
@@ -114,9 +117,11 @@ function setup() {
   millisInicial = millis();
   timerGame = millis();
   gameTime = 10000; //duracio partida
+  musica.stop();
 }
 
 function draw() {
+
   if(stat == 0){
     gameTime = gameTime + deltaTime;
     timeGameLeft = timeGameLeft - gameTime;

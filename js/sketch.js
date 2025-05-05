@@ -19,7 +19,7 @@ let timerSonar = 0;
 let cooldownSonar = 10000;
 let sonarUsos = 3;
 let sonarUsable = true;
-let countdownDuration = 10000;
+let countdownDuration = 5000;
 let stat = 0;
 let indexPeix = 0;
 let letters = "JKL";
@@ -242,26 +242,15 @@ function draw() {
       fishScore = minFishScore;
     }
   }
-  else if(stat == 3){
-    timeLeft = countdownDuration - (millis() - millisInicial); 
-    if(timeLeft > 0) {
-      background(180);
-      textSize(35);
-      text(felicitacio, width / 2, height / 5);
-      textSize(20);
-      text(round(map(peixos[indexPeix].fishLenght,10,100, 10, 50),2)+"cm", width / 2, height * 0.9);
-      push();
-      image(peixos[indexPeix].img, width/2, height * 0.7);
-    }else{
-      countdownDuration = 10000;
-      peixos.splice(indexPeix,1);
-      stat = 0;
-      directX = 0;
-      directY = 0;
-        stat = 0;
+  else if (stat == 3) {
+    background(180);
+    textSize(35);
+    text(felicitacio, width / 2, height / 5);
+    textSize(20);
+    text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.9);
+    push();
+    image(peixos[indexPeix].img, width / 2, height * 0.7);
 
-
-    }
   }else if(stat == 4){
     background(220);
       if(viu){
@@ -420,6 +409,15 @@ function keyPressed(){
         if(fishScore >= minFishScore){
           fishScore = minFishScore;
         }
+    }
+  }
+  else if (stat == 3) {
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
+     || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+      peixos.splice(indexPeix, 1);
+      stat = 0;
+      directX = 0;
+      directY = 0;
     }
   }
 }

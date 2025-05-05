@@ -97,7 +97,7 @@ function preload(){
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
   soundFormats('mp3','wav');
   musica_bg = loadSound('audio/bg_music.wav');
-  musica = loadSound("musica.wav");
+
 
 }
 
@@ -116,12 +116,15 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
-  gameTime = 10000; //duracio partida
-  musica.stop();
+  gameTime = 120000; //duracio partida
+  musica_bg.play();
+
 }
 
 function draw() {
-
+  if(!musica_bg.isPlaying()){
+    musica_bg.play();
+  }
   if(stat == 0){
     gameTime = gameTime + deltaTime;
     timeGameLeft = timeGameLeft - gameTime;

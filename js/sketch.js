@@ -45,10 +45,13 @@ let baixellMiniImg;
 let numDia;
 let pescat;
 
+// stat == -2 pantalla de presentacio
+// stat == -1 pantalla de tutorial
 // stat == 0 pescant amb el baixell
 // stat == 1 preparat per pescar
 // stat == 2 minijoc de pesca J K L
 // stat == 3 felicitacio per pescar
+// stat == 4 felicitacio per dia complert
 
 let musica;
 

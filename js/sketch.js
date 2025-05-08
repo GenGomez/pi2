@@ -79,7 +79,6 @@ felicitacionsFinal = [
   numDia = 0;
   let felicitacioDia;
   let felicitacioFinal;
-
 function preload(){
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
@@ -126,9 +125,9 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
-  gameTime = 120000; //duracio partida
+  gameTime = 10000; //duracio partida
   musica_bg.play();
-
+  state0Timer = millis();
 }
 
 function draw() {
@@ -136,8 +135,8 @@ function draw() {
     musica_bg.play();
   }
   if(stat == 0){
-    gameTime = gameTime + deltaTime;
-    timeGameLeft = timeGameLeft - gameTime;
+    gameTime += deltaTime;
+    timeGameLeft -= deltaTime; 
     if (timeGameLeft <= 0) {
       viu = false;
       felicitacioFinal = felicitacionsFinal[floor(random(0, felicitacionsFinal.length))];
@@ -215,15 +214,6 @@ function draw() {
       minFishScore = fishScore;
       currentLetter = randomLetter();
       nPeixos--;
-      if(nPeixos == 0){
-        numDia ++;
-        nPeixos = nPeixosIni
-        for(let i = 0; i<nPeixos; i++){
-          generarPeix();
-        }
-        posY = (height- (rectSize/2));
-        posX = (height+borderSize)/2;
-      }
     } 
   }
   else if(stat == 2){
@@ -264,6 +254,16 @@ function draw() {
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.9);
     push();
     image(peixos[indexPeix].img, width / 2, height * 0.7);
+    if(nPeixos == 0){
+      numDia ++;
+      nPeixos = nPeixosIni
+      for(let i = 0; i<nPeixos; i++){
+        generarPeix();
+      }
+      posY = (height- (rectSize/2));
+      posX = (height+borderSize)/2;
+      stat = 4;
+    }
 
   }else if(stat == 4){
     background(220);
@@ -429,7 +429,7 @@ function keyPressed(){
         }
     }
   }
-  else if (stat == 3) {
+  else if (stat == 3 && stat == 4) {
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
       peixos.splice(indexPeix, 1);

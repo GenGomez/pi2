@@ -3,6 +3,7 @@ let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
+let fonsAnimat;
 let nPeixosIni = 3
 let nPeixos;
 let peixos = [];
@@ -79,8 +80,9 @@ felicitacionsFinal = [
   numDia = 0;
   let felicitacioDia;
   let felicitacioFinal;
-
 function preload(){
+  fonsAnimat = loadImage("img/world/background.gif");
+
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
   peixosImg[2] = loadImage("img/fish/whiteBigFish.png");
@@ -113,6 +115,7 @@ function preload(){
 
 function setup() {
   createCanvas(800, 800);
+  fonsAnimat.play();
   nPeixos = nPeixosIni;
   rectSize = (height-borderSize)/gridSize;
   posY = (height- (rectSize/2));
@@ -126,9 +129,8 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
-  gameTime = 120000; //duracio partida
+  gameTime = 10000; //duracio partida
   musica_bg.play();
-
 }
 
 function draw() {
@@ -136,8 +138,8 @@ function draw() {
     musica_bg.play();
   }
   if(stat == 0){
-    gameTime = gameTime + deltaTime;
-    timeGameLeft = timeGameLeft - gameTime;
+    gameTime += deltaTime;
+    timeGameLeft -= deltaTime; 
     if (timeGameLeft <= 0) {
       viu = false;
       felicitacioFinal = felicitacionsFinal[floor(random(0, felicitacionsFinal.length))];
@@ -200,6 +202,7 @@ function draw() {
 
   }
   else if(stat == 1){
+    
     background(220);
     timeLeft = countdownDuration - (millis() - millisInicial); 
     if(timeLeft > 0) {
@@ -215,15 +218,6 @@ function draw() {
       minFishScore = fishScore;
       currentLetter = randomLetter();
       nPeixos--;
-      if(nPeixos == 0){
-        numDia ++;
-        nPeixos = nPeixosIni
-        for(let i = 0; i<nPeixos; i++){
-          generarPeix();
-        }
-        posY = (height- (rectSize/2));
-        posX = (height+borderSize)/2;
-      }
     } 
   }
   else if(stat == 2){
@@ -263,6 +257,17 @@ function draw() {
     textSize(20);
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.9);
     image(peixos[indexPeix].img, width / 2, height * 0.7, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
+
+    if(nPeixos == 0){
+      numDia ++;
+      nPeixos = nPeixosIni
+      for(let i = 0; i<nPeixos; i++){
+        generarPeix();
+      }
+      posY = (height- (rectSize/2));
+      posX = (height+borderSize)/2;
+      stat = 4;
+    }
 
   }else if(stat == 4){
     background(220);
@@ -312,18 +317,13 @@ function generarPeix(){
 
 function dibuixarTaulell(){
 
-  background(222);
+  image(fonsAnimat,width/2,width/2,width,width);
   fill(255);
   stroke(0);
-  strokeWeight(4);
+  strokeWeight(1);
   for(let i = 0; i < gridSize; i++){
     for(let j = 0; j < gridSize; j++){
-      if(j >= gridSize -2 && i <= ceil(gridSize/2) && i >= floor(gridSize/2)-1){
-        fill(128, 82, 8);
-      }
-      else{
-        fill(57, 89, 196);
-      }
+      fill(255,255,255,0);
       rect((i*rectSize) + borderSize, (j*rectSize) + borderSize, rectSize, rectSize);
     }
   }
@@ -428,7 +428,7 @@ function keyPressed(){
         }
     }
   }
-  else if (stat == 3) {
+  else if (stat == 3 || stat == 4) {
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
       peixos.splice(indexPeix, 1);

@@ -262,8 +262,7 @@ function draw() {
     text(felicitacio, width / 2, height / 5);
     textSize(20);
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.9);
-    push();
-    image(peixos[indexPeix].img, width / 2, height * 0.7);
+    image(peixos[indexPeix].img, width / 2, height * 0.7, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
 
   }else if(stat == 4){
     background(220);

@@ -127,7 +127,6 @@ function setup() {
   timerGame = millis();
   gameTime = 10000; //duracio partida
   musica_bg.play();
-  state0Timer = millis();
 }
 
 function draw() {
@@ -199,6 +198,7 @@ function draw() {
 
   }
   else if(stat == 1){
+    
     background(220);
     timeLeft = countdownDuration - (millis() - millisInicial); 
     if(timeLeft > 0) {
@@ -254,6 +254,7 @@ function draw() {
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.9);
     push();
     image(peixos[indexPeix].img, width / 2, height * 0.7);
+
     if(nPeixos == 0){
       numDia ++;
       nPeixos = nPeixosIni
@@ -429,7 +430,7 @@ function keyPressed(){
         }
     }
   }
-  else if (stat == 3 && stat == 4) {
+  else if (stat == 3 || stat == 4) {
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
       peixos.splice(indexPeix, 1);

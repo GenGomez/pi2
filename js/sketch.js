@@ -3,6 +3,7 @@ let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
+let fonsAnimat;
 let nPeixosIni = 3
 let nPeixos;
 let peixos = [];
@@ -81,6 +82,8 @@ felicitacionsFinal = [
   let felicitacioFinal;
 
 function preload(){
+  fonsAnimat = loadImage("img/world/background.gif");
+
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
   peixosImg[2] = loadImage("img/fish/whiteBigFish.png");
@@ -113,6 +116,7 @@ function preload(){
 
 function setup() {
   createCanvas(800, 800);
+  fonsAnimat.play();
   nPeixos = nPeixosIni;
   rectSize = (height-borderSize)/gridSize;
   posY = (height- (rectSize/2));
@@ -313,18 +317,13 @@ function generarPeix(){
 
 function dibuixarTaulell(){
 
-  background(222);
+  image(fonsAnimat,width/2,width/2,width,width);
   fill(255);
   stroke(0);
-  strokeWeight(4);
+  strokeWeight(1);
   for(let i = 0; i < gridSize; i++){
     for(let j = 0; j < gridSize; j++){
-      if(j >= gridSize -2 && i <= ceil(gridSize/2) && i >= floor(gridSize/2)-1){
-        fill(128, 82, 8);
-      }
-      else{
-        fill(57, 89, 196);
-      }
+      fill(255,255,255,0);
       rect((i*rectSize) + borderSize, (j*rectSize) + borderSize, rectSize, rectSize);
     }
   }

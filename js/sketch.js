@@ -1,10 +1,10 @@
-const gridSize = 5;
+const gridSize = 8;
 let rectSize;
 const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
 let fonsAnimat;
-let nPeixosIni = 3
+let nPeixosIni = 3;
 let nPeixos;
 let peixos = [];
 let taulell = [];
@@ -153,11 +153,12 @@ function draw() {
     let posXQ = round(((posX + borderSize) - rectSize/4) /rectSize) - 1;
     let posYQ = round(((posY + borderSize) - rectSize/4) /rectSize) - 1;
     if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
-      for(let i = 0; i < nPeixos; i++){
+      for(let i = 0; i < peixos.length; i++){
+        print(i);
         peixos[i].revelar()
       }
     }
-    for(let i = 0; i < nPeixos; i++){
+    for(let i = 0; i < peixos.length; i++){
       if(peixos[i].comparar(posXQ,posYQ)){
         indexPeix = i;
         stat = 1;
@@ -167,7 +168,7 @@ function draw() {
       }
     }
 
-    for(let i = 0; i < nPeixos; i++){
+    for(let i = 0; i < peixos.length; i++){
       peixos[i].dibuixar()
     }
   
@@ -196,9 +197,9 @@ function draw() {
     }  
 
     //nit
-    let nitOpacity = map(timeGameLeft, gameTime, 0, 0, 255); // Map timeLeft to opacity
-    fill(0,0,0,nitOpacity);
-    rect(0,width,0,height);
+    //let nitOpacity = map(timeGameLeft, gameTime, 0, 0, 255); // Map timeLeft to opacity
+    //fill(0,0,0,nitOpacity);
+    //rect(0,width,0,height);
 
   }
   else if(stat == 1){
@@ -259,22 +260,12 @@ function draw() {
     push();
     image(peixos[indexPeix].img, width / 2, height * 0.7);
 
-    if(nPeixos == 0){
-      numDia ++;
-      nPeixos = nPeixosIni
-      for(let i = 0; i<nPeixos; i++){
-        generarPeix();
-      }
-      posY = (height- (rectSize/2));
-      posX = (height+borderSize)/2;
-      stat = 4;
-    }
 
   }else if(stat == 4){
     background(220);
       if(viu){
       textSize(22);
-      text(felicitacioDia, width / 2, height / 4);
+      //text(felicitacioDia, width / 2, height / 4);
       textSize(20);
       text("Dia "+numDia+" sobreviscut",width / 2, height / 5);
       }else{
@@ -285,8 +276,6 @@ function draw() {
 }
 
 function dibuixarBaixell(x,y,size){
-  print(directX);
-  print(directY);
   let imgB = baixellImg[directX+1][directY+1]
   tint(255,255);
   image(imgB,x,y,size,size);
@@ -385,7 +374,6 @@ function keyPressed(){
       if(key === ' ') {
         sonarUsable = false;
         timerSonar = millis() + cooldownSonar;
-        print(timerSonar);
         for(let i = 0; i < nPeixos; i++){
           peixos[i].revelar()
         }
@@ -429,14 +417,35 @@ function keyPressed(){
         }
     }
   }
-  else if (stat == 3 || stat == 4) {
+  else if (stat == 3) {
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
       peixos.splice(indexPeix, 1);
-      stat = 0;
+      print(peixos);
+      if(nPeixos == 0){
+        numDia ++;
+        stat = 4;
+      }
+      else{
+        stat = 0;
+      }
       directX = 0;
       directY = 0;
     }
+  }
+  else if(stat == 4){
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
+      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+        nPeixos = nPeixosIni
+        print(nPeixos);
+        for(let i = 0; i<nPeixos; i++){
+          generarPeix();
+        }
+        print(peixos);
+        posY = (height- (rectSize/2));
+        posX = (height+borderSize)/2;
+        stat = 0;
+      }
   }
 }
 

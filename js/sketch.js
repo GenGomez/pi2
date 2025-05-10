@@ -29,15 +29,15 @@ let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
 let timerGame;
-let gameTime;
-let timeGameLeft;
+let timeGameMax = 10000;
+let timeGameLeft = timeGameMax;
 let pausedTime = 0; // Stores how much time was left when paused
 let isTimerPaused = false;
-let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
-  "Compte, que amb aquest ritme acabaràs\n buidant tot el riu!",
-  "Avi, t’hauríem d’anomenar el mestre\n pescador virtual! Quin art!",
-  "Amb aquestes mans, podries pescar\n fins i tot un tauró!",
-  "No és sort, és talent! Ja pots donar\n classes de pesca!"];
+let felicitacions = ["Ets el rei de la pesca! Aquest peix\nja sabia que no tenia escapatòria!",
+  "Compte, que amb aquest ritme acabaràs\nbuidant tot el mar!",
+  "Avi, t’hauríem d’anomenar el mestre\npescador virtual! Quin art!",
+  "Amb aquestes mans, podries pescar\nfins i tot un tauró!",
+  "No és sort, és talent! Ja pots donar\nclasses de pesca!"];
 let felicitacio;
 let backgroundMinijocImg;
 let canyaImg;
@@ -57,7 +57,7 @@ let musica;
 
 // array de imatges
 let baixellImg =[];
-felicitacionsDia = [
+/*felicitacionsDia = [
   "Una nit més, un peix més, una història més.",
   "El mar ens ha posat a prova... i avui hem guanyat!",
   "Quan la foscor cau, només els valents tornen a casa.",
@@ -67,18 +67,17 @@ felicitacionsDia = [
   "Una nit lluitant amb les onades, un dia més per brindar amb els amics.",
   "Sobreviure al mar és honorar la vida.",
   "La mar no regala res... però avui ens ha deixat tornar.",
-  "No és només pescar, és vèncer la nit i tornar a explicar-ho."];
+  "No és només pescar, és vèncer la nit i tornar a explicar-ho."];*/
 felicitacionsFinal = [
-      "Has resistit {X} dies entre onades i vents.\n El mar t’espera de nou, capità!",
-      "Cada dia al mar et fa més fort.\n {X} dies superats! Estàs a punt per conquerir-ne molts més.",
-      "{X} dies de pesca, {X} dies de glòria.\n Descansa... i torna-hi amb força renovada!",
-      "El teu viatge marí ja té {X} dies d’història.\n La propera aventura ja t’està cridant.",
-      "Has dominat el mar durant {X} dies.\n Imagina tot el que encara pots aconseguir!",
-      "{X} dies navegant, pescant i lluitant: ets pur esperit de mar.\n El millor encara ha d’arribar!",
-      "Has sobreviscut {X} dies amb coratge.\n La pròxima expedició serà encara més gran!",
-      "Després de {X} dies plens de reptes, mereixes una pausa...\n però el mar no oblida els seus herois.",
-      "Cada dia que passes al mar et transforma.\n Amb {X} dies superats, ets més llegenda que pescador!",
-      "El mar et coneix pel teu nom.\n {X} dies pescant són només el principi d'una gran història."];
+      "Has resistit {X} dies\nentre onades i vents.\nEl mar t’espera de nou, capità!",
+      "Cada dia al mar et fa més fort.\n{X} dies superats!\nEstàs a punt per conquerir-ne molts més.",
+      "El teu viatge marí\nja té {X} dies d’història.\nLa propera aventura ja t’està cridant.",
+      "Has dominat el mar\ndurant {X} dies.\nImagina tot el que encara pots aconseguir!",
+      "{X} dies navegant, pescant i lluitant.\nEts pur esperit de mar.\nEl millor encara ha d’arribar!",
+      "Has sobreviscut {X} dies\n amb coratge i determinacio.\nLa pròxima expedició serà encara més gran!",
+      "Després de {X} dies plens de reptes,\nmereixes una pausa...\nperò el mar no oblida els seus herois.",
+      "Cada dia que passes al mar et transforma.\nAmb {X} dies superats,\nets més llegenda que pescador!",
+      "El mar et coneix pel teu nom.\n{X} dies pescant són només el principi\nd'una gran història."];
   viu = true;
   numDia = 0;
   let felicitacioDia;
@@ -114,11 +113,17 @@ function preload(){
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
 
   missatge = loadImage("img/world/message.png");
-
 }
 
 function setup() {
-  createCanvas(800, 800);
+  let canvaSize;
+  if(window.innerHeight >= window.innerWidth){
+    canvaSize = window.innerWidth;
+  }
+  else{
+    canvaSize = window.innerHeight;
+  }
+  createCanvas(canvaSize, canvaSize);
   fonsAnimat.play();
   nPeixos = nPeixosIni;
   rectSize = (height-borderSize)/gridSize;
@@ -133,7 +138,6 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
-  gameTime = 10000; //duracio partida
   musica_bg.play();
 }
 
@@ -143,13 +147,13 @@ function draw() {
     musica_bg.play();
   }
   if(stat == 0){
-    gameTime += deltaTime;
     timeGameLeft -= deltaTime; 
+    console.log(timeGameLeft);
     if (timeGameLeft <= 0) {
       viu = false;
       felicitacioFinal = felicitacionsFinal[floor(random(0, felicitacionsFinal.length))];
-      felicitacioDia = felicitacionsDia[floor(random(0, felicitacionsDia.length))]; //cridar abans doncs aixi apreix cada cop una diferent però no es crida mes dun cop en l'estat 4 
-      stat = 4; // DiaComplert / Game over (depen si esta viu o no)
+      //felicitacioDia = felicitacionsDia[floor(random(0, felicitacionsDia.length))]; //cridar abans doncs aixi apreix cada cop una diferent però no es crida mes dun cop en l'estat 4 
+      stat = 5;
     }
     
     dibuixarTaulell();
@@ -168,8 +172,6 @@ function draw() {
         indexPeix = i;
         stat = 1;
         millisInicial = millis();
-        pausedTime = gameTime - (millis() - timerGame);
-        isTimerPaused = true;
       }
     }
 
@@ -202,7 +204,6 @@ function draw() {
     }  
 
     //nit
-    //let nitOpacity = map(timeGameLeft, gameTime, 0, 0, 255); // Map timeLeft to opacity
     //fill(0,0,0,nitOpacity);
     //rect(0,width,0,height);
 
@@ -282,17 +283,21 @@ function draw() {
     image(backgroundMinijocImg,width/2,height/2);
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
-      if(viu){
-      textSize(22);
-      fill(255);
-      textStyle(BOLD)
-      //text(felicitacioDia, width / 2, height / 4);
-      textSize(100);
-      text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
-      }else{
-        textSize(20);
-        text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 4);
-      }
+    textSize(22);
+    fill(255);
+    textStyle(BOLD)
+    //text(felicitacioDia, width / 2, height / 4);
+    textSize(100);
+    text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
+  }else if(stat == 5){
+    backgroundMinijocImg.resize(0,height);
+    image(backgroundMinijocImg,width/2,height/2);
+    missatge.resize(0,width);
+    image(missatge,width/2, height/2);
+    textSize(30);
+    textStyle(BOLD);
+    fill(255); 
+    text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 2);
   }
 }
 
@@ -465,6 +470,8 @@ function keyPressed(){
         print(peixos);
         posY = (height- (rectSize/2));
         posX = (height+borderSize)/2;
+        timeGameMax = timeGameMax * 0.9;
+        timeGameLeft = timeGameMax;
         stat = 0;
       }
   }

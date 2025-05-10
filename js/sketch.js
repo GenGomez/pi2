@@ -4,7 +4,7 @@ const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
 let fonsAnimat;
-let nPeixosIni = 3;
+let nPeixosIni = 1;
 let nPeixos;
 let peixos = [];
 let taulell = [];
@@ -269,11 +269,11 @@ function draw() {
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
     textStyle(BOLD);
-    textSize(33);
+    textSize(height/35 + 5);
     fill(255);
     noStroke();
     text(felicitacio, width / 2, height *0.3);
-    textSize(30);
+    textSize(height/15 + 10);
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.8);
     image(peixos[indexPeix].img, width / 2, height * 0.6, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
 
@@ -283,18 +283,17 @@ function draw() {
     image(backgroundMinijocImg,width/2,height/2);
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
-    textSize(22);
     fill(255);
     textStyle(BOLD)
     //text(felicitacioDia, width / 2, height / 4);
-    textSize(100);
+    textSize(height/10 + 5);
     text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
   }else if(stat == 5){
     backgroundMinijocImg.resize(0,height);
     image(backgroundMinijocImg,width/2,height/2);
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
-    textSize(30);
+    textSize(height/35 + 5);
     textStyle(BOLD);
     fill(255); 
     text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 2);

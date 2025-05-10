@@ -7,7 +7,7 @@ class Peix{
     this.llum = 1;
     this.img = img[floor(random(3))];
     this.fishLenght = Math.floor(random(10,101));
-    this.imgSize = Math.floor(map(this.fishLenght,10,100,200,700));
+    this.imgSize = Math.floor(map(this.fishLenght,10,100,width*0.2,width*0.85));
   }
   
   dibuixar(){

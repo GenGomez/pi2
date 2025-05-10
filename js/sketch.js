@@ -113,6 +113,7 @@ function preload(){
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
 
+  missatge = loadImage("img/world/message.png");
 
 }
 
@@ -137,6 +138,7 @@ function setup() {
 }
 
 function draw() {
+  textStyle(NORMAL);
   if(!musica_bg.isPlaying()){
     musica_bg.play();
   }
@@ -207,8 +209,13 @@ function draw() {
   }
   else if(stat == 1){
     
-    background(220);
+    backgroundMinijocImg.resize(0,height);
+    image(backgroundMinijocImg,width/2,height/2);
     timeLeft = countdownDuration - (millis() - millisInicial); 
+    missatge.resize(0,width);
+    image(missatge,width/2, height/2);
+    fill(255);
+    textStyle(BOLD);
     if(timeLeft > 0) {
       textSize(height/10 + 10);
       text('PEIX TROBAT!', width / 2, height *0.4);
@@ -255,21 +262,33 @@ function draw() {
     }
   }
   else if (stat == 3) {
-    background(180);
-    textSize(35);
-    text(felicitacio, width / 2, height / 5);
-    textSize(20);
-    text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.9);
-    image(peixos[indexPeix].img, width / 2, height * 0.7, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
+    backgroundMinijocImg.resize(0,height);
+    image(backgroundMinijocImg,width/2,height/2);
+    timeLeft = countdownDuration - (millis() - millisInicial); 
+    missatge.resize(0,width);
+    image(missatge,width/2, height/2);
+    textStyle(BOLD);
+    textSize(33);
+    fill(255);
+    noStroke();
+    text(felicitacio, width / 2, height *0.3);
+    textSize(30);
+    text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.8);
+    image(peixos[indexPeix].img, width / 2, height * 0.6, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
 
 
   }else if(stat == 4){
-    background(220);
+    backgroundMinijocImg.resize(0,height);
+    image(backgroundMinijocImg,width/2,height/2);
+    missatge.resize(0,width);
+    image(missatge,width/2, height/2);
       if(viu){
       textSize(22);
+      fill(255);
+      textStyle(BOLD)
       //text(felicitacioDia, width / 2, height / 4);
-      textSize(20);
-      text("Dia "+numDia+" sobreviscut",width / 2, height / 5);
+      textSize(100);
+      text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
       }else{
         textSize(20);
         text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 4);

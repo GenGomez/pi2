@@ -4,7 +4,7 @@ const borderSize = 50;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
 let fonsAnimat;
-let nPeixosIni = 1;
+let nPeixosIni = 3;
 let nPeixos;
 let peixos = [];
 let taulell = [];
@@ -29,16 +29,15 @@ let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
 let timerGame;
-let timeGameInicial = 120000;
-let timeGameMax = timeGameInicial;
-let timeGameLeft = timeGameMax;
+let gameTime;
+let timeGameLeft;
 let pausedTime = 0; // Stores how much time was left when paused
 let isTimerPaused = false;
-let felicitacions = ["Ets el rei de la pesca! Aquest peix\nja sabia que no tenia escapatòria!",
-  "Compte, que amb aquest ritme acabaràs\nbuidant tot el mar!",
-  "Avi, t’hauríem d’anomenar el mestre\npescador virtual! Quin art!",
-  "Amb aquestes mans, podries pescar\nfins i tot un tauró!",
-  "No és sort, és talent! Ja pots donar\nclasses de pesca!"];
+let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
+  "Compte, que amb aquest ritme acabaràs\n buidant tot el riu!",
+  "Avi, t’hauríem d’anomenar el mestre\n pescador virtual! Quin art!",
+  "Amb aquestes mans, podries pescar\n fins i tot un tauró!",
+  "No és sort, és talent! Ja pots donar\n classes de pesca!"];
 let felicitacio;
 let backgroundMinijocImg;
 let canyaImg;
@@ -58,7 +57,7 @@ let musica;
 
 // array de imatges
 let baixellImg =[];
-/*felicitacionsDia = [
+felicitacionsDia = [
   "Una nit més, un peix més, una història més.",
   "El mar ens ha posat a prova... i avui hem guanyat!",
   "Quan la foscor cau, només els valents tornen a casa.",
@@ -68,17 +67,18 @@ let baixellImg =[];
   "Una nit lluitant amb les onades, un dia més per brindar amb els amics.",
   "Sobreviure al mar és honorar la vida.",
   "La mar no regala res... però avui ens ha deixat tornar.",
-  "No és només pescar, és vèncer la nit i tornar a explicar-ho."];*/
+  "No és només pescar, és vèncer la nit i tornar a explicar-ho."];
 felicitacionsFinal = [
-      "Has resistit {X} dies\nentre onades i vents.\nEl mar t’espera de nou, capità!",
-      "Cada dia al mar et fa més fort.\n{X} dies superats!\nEstàs a punt per conquerir-ne molts més.",
-      "El teu viatge marí\nja té {X} dies d’història.\nLa propera aventura ja t’està cridant.",
-      "Has dominat el mar\ndurant {X} dies.\nImagina tot el que encara pots aconseguir!",
-      "{X} dies navegant, pescant i lluitant.\nEts pur esperit de mar.\nEl millor encara ha d’arribar!",
-      "Has sobreviscut {X} dies\n amb coratge i determinacio.\nLa pròxima expedició serà encara més gran!",
-      "Després de {X} dies plens de reptes,\nmereixes una pausa...\nperò el mar no oblida els seus herois.",
-      "Cada dia que passes al mar et transforma.\nAmb {X} dies superats,\nets més llegenda que pescador!",
-      "El mar et coneix pel teu nom.\n{X} dies pescant són només el principi\nd'una gran història."];
+      "Has resistit {X} dies entre onades i vents.\n El mar t’espera de nou, capità!",
+      "Cada dia al mar et fa més fort.\n {X} dies superats! Estàs a punt per conquerir-ne molts més.",
+      "{X} dies de pesca, {X} dies de glòria.\n Descansa... i torna-hi amb força renovada!",
+      "El teu viatge marí ja té {X} dies d’història.\n La propera aventura ja t’està cridant.",
+      "Has dominat el mar durant {X} dies.\n Imagina tot el que encara pots aconseguir!",
+      "{X} dies navegant, pescant i lluitant: ets pur esperit de mar.\n El millor encara ha d’arribar!",
+      "Has sobreviscut {X} dies amb coratge.\n La pròxima expedició serà encara més gran!",
+      "Després de {X} dies plens de reptes, mereixes una pausa...\n però el mar no oblida els seus herois.",
+      "Cada dia que passes al mar et transforma.\n Amb {X} dies superats, ets més llegenda que pescador!",
+      "El mar et coneix pel teu nom.\n {X} dies pescant són només el principi d'una gran història."];
   viu = true;
   numDia = 0;
   let felicitacioDia;
@@ -116,19 +116,14 @@ function preload(){
   audio_win_peix = loadSound('audio/win_peixets.wav');
   audio_canya_be = loadSound('audio/so_canya_pescar.mp3');
   audio_canya_malament = loadSound('audio/splash.wav');
+  audio_motor = loadSound('audio/motor.mp3');
 
   missatge = loadImage("img/world/message.png");
+
 }
 
 function setup() {
-  let canvaSize;
-  if(window.innerHeight >= window.innerWidth){
-    canvaSize = window.innerWidth;
-  }
-  else{
-    canvaSize = window.innerHeight;
-  }
-  createCanvas(canvaSize, canvaSize);
+  createCanvas(800, 800);
   fonsAnimat.play();
   nPeixos = nPeixosIni;
   rectSize = (height-borderSize)/gridSize;
@@ -143,6 +138,7 @@ function setup() {
   angleMode(DEGREES);
   millisInicial = millis();
   timerGame = millis();
+  gameTime = 10000; //duracio partida
   musica_bg.play();
 }
 
@@ -153,13 +149,13 @@ function draw() {
     //musica_bg.rate() aixo serverix x canviar la velocitat del audio
   }
   if(stat == 0){
+    gameTime += deltaTime;
     timeGameLeft -= deltaTime; 
-    console.log(timeGameLeft);
     if (timeGameLeft <= 0) {
       viu = false;
       felicitacioFinal = felicitacionsFinal[floor(random(0, felicitacionsFinal.length))];
-      //felicitacioDia = felicitacionsDia[floor(random(0, felicitacionsDia.length))]; //cridar abans doncs aixi apreix cada cop una diferent però no es crida mes dun cop en l'estat 4 
-      stat = 5;
+      felicitacioDia = felicitacionsDia[floor(random(0, felicitacionsDia.length))]; //cridar abans doncs aixi apreix cada cop una diferent però no es crida mes dun cop en l'estat 4 
+      stat = 4; // DiaComplert / Game over (depen si esta viu o no)
     }
     
     dibuixarTaulell();
@@ -169,6 +165,7 @@ function draw() {
     let posYQ = round(((posY + borderSize) - rectSize/4) /rectSize) - 1;
     if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
       for(let i = 0; i < peixos.length; i++){
+        print(i);
         peixos[i].revelar()
       }
     }
@@ -177,6 +174,8 @@ function draw() {
         indexPeix = i;
         stat = 1;
         millisInicial = millis();
+        pausedTime = gameTime - (millis() - timerGame);
+        isTimerPaused = true;
       }
     }
 
@@ -206,15 +205,13 @@ function draw() {
     }
     if(posY > height - (rectSize/4)){
       posY = height - (rectSize/4);
-    }
-    if(timeGameLeft <= 10000){
-      push()
-      rectMode(CORNER);
-      let nitOpacity = map(timeGameLeft,10000,0,0,160);
-      fill(0,11,89,nitOpacity);
-      rect(borderSize,borderSize,width,height);
-      pop();
-    }
+    }  
+
+    //nit
+    //let nitOpacity = map(timeGameLeft, gameTime, 0, 0, 255); // Map timeLeft to opacity
+    //fill(0,0,0,nitOpacity);
+    //rect(0,width,0,height);
+
   }
   else if(stat == 1){
     
@@ -277,11 +274,11 @@ function draw() {
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
     textStyle(BOLD);
-    textSize(height/35 + 5);
+    textSize(33);
     fill(255);
     noStroke();
     text(felicitacio, width / 2, height *0.3);
-    textSize(height/15 + 10);
+    textSize(30);
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.8);
     image(peixos[indexPeix].img, width / 2, height * 0.6, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
 
@@ -291,20 +288,17 @@ function draw() {
     image(backgroundMinijocImg,width/2,height/2);
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
-    fill(255);
-    textStyle(BOLD)
-    //text(felicitacioDia, width / 2, height / 4);
-    textSize(height/10 + 5);
-    text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
-  }else if(stat == 5){
-    backgroundMinijocImg.resize(0,height);
-    image(backgroundMinijocImg,width/2,height/2);
-    missatge.resize(0,width);
-    image(missatge,width/2, height/2);
-    textSize(height/35 + 5);
-    textStyle(BOLD);
-    fill(255); 
-    text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 2);
+      if(viu){
+      textSize(22);
+      fill(255);
+      textStyle(BOLD)
+      //text(felicitacioDia, width / 2, height / 4);
+      textSize(100);
+      text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
+      }else{
+        textSize(20);
+        text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 4);
+      }
   }
 }
 
@@ -403,6 +397,7 @@ function dibuixarSonar(){
 function keyPressed(){
   console.log(key); // This will log the key pressed
   if(stat == 0){
+    audio_motor.play();
     if(sonarUsable == true){
       if(key === ' ') {
         sonarUsable = false;
@@ -457,6 +452,7 @@ function keyPressed(){
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
       peixos.splice(indexPeix, 1);
+      print(peixos);
       if(nPeixos == 0){
         numDia ++;
         stat = 4;
@@ -472,29 +468,13 @@ function keyPressed(){
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
       || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
         nPeixos = nPeixosIni
+        print(nPeixos);
         for(let i = 0; i<nPeixos; i++){
           generarPeix();
         }
+        print(peixos);
         posY = (height- (rectSize/2));
         posX = (height+borderSize)/2;
-        timeGameMax = timeGameMax * 0.9;
-        timeGameLeft = timeGameMax;
-        stat = 0;
-      }
-  }
-  else if(stat == 5){
-    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
-      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
-        nPeixos = nPeixosIni
-        peixos=[];
-        for(let i = 0; i<nPeixos; i++){
-          generarPeix();
-        }
-        posY = (height- (rectSize/2));
-        posX = (height+borderSize)/2;
-        timeGameMax = timeGameInicial
-        timeGameLeft = timeGameMax;
-        millisInicial = millis();
         stat = 0;
       }
   }
@@ -502,6 +482,7 @@ function keyPressed(){
 
 function keyReleased(){
   if(stat == 0){
+    audio_motor.stop();
     if(key == 'ArrowUp' || key == 'W' || key == 'w') {
       if(directY < 0){
         directY = 0;

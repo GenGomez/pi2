@@ -29,7 +29,8 @@ let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
 let timerGame;
-let timeGameMax = 10000;
+let timeGameInicial = 120000;
+let timeGameMax = timeGameInicial;
 let timeGameLeft = timeGameMax;
 let pausedTime = 0; // Stores how much time was left when paused
 let isTimerPaused = false;
@@ -163,7 +164,6 @@ function draw() {
     let posYQ = round(((posY + borderSize) - rectSize/4) /rectSize) - 1;
     if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
       for(let i = 0; i < peixos.length; i++){
-        print(i);
         peixos[i].revelar()
       }
     }
@@ -201,12 +201,15 @@ function draw() {
     }
     if(posY > height - (rectSize/4)){
       posY = height - (rectSize/4);
-    }  
-
-    //nit
-    //fill(0,0,0,nitOpacity);
-    //rect(0,width,0,height);
-
+    }
+    if(timeGameLeft <= 10000){
+      push()
+      rectMode(CORNER);
+      let nitOpacity = map(timeGameLeft,10000,0,0,160);
+      fill(0,11,89,nitOpacity);
+      rect(borderSize,borderSize,width,height);
+      pop();
+    }
   }
   else if(stat == 1){
     
@@ -446,7 +449,6 @@ function keyPressed(){
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
       peixos.splice(indexPeix, 1);
-      print(peixos);
       if(nPeixos == 0){
         numDia ++;
         stat = 4;
@@ -462,15 +464,29 @@ function keyPressed(){
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
       || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
         nPeixos = nPeixosIni
-        print(nPeixos);
         for(let i = 0; i<nPeixos; i++){
           generarPeix();
         }
-        print(peixos);
         posY = (height- (rectSize/2));
         posX = (height+borderSize)/2;
         timeGameMax = timeGameMax * 0.9;
         timeGameLeft = timeGameMax;
+        stat = 0;
+      }
+  }
+  else if(stat == 5){
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
+      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+        nPeixos = nPeixosIni
+        peixos=[];
+        for(let i = 0; i<nPeixos; i++){
+          generarPeix();
+        }
+        posY = (height- (rectSize/2));
+        posX = (height+borderSize)/2;
+        timeGameMax = timeGameInicial
+        timeGameLeft = timeGameMax;
+        millisInicial = millis();
         stat = 0;
       }
   }

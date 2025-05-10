@@ -83,6 +83,7 @@ felicitacionsFinal = [
   numDia = 0;
   let felicitacioDia;
   let felicitacioFinal;
+
 function preload(){
   fonsAnimat = loadImage("img/world/background.gif");
 
@@ -112,6 +113,9 @@ function preload(){
   audio_sonar = loadSound('audio/sonar-ping.wav');
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
+  audio_win_peix = loadSound('audio/win_peixets.wav');
+  audio_canya_be = loadSound('audio/so_canya_pescar.mp3');
+  audio_canya_malament = loadSound('audio/splash.wav');
 
   missatge = loadImage("img/world/message.png");
 }
@@ -146,6 +150,7 @@ function draw() {
   textStyle(NORMAL);
   if(!musica_bg.isPlaying()){
     musica_bg.play();
+    //musica_bg.rate() aixo serverix x canviar la velocitat del audio
   }
   if(stat == 0){
     timeGameLeft -= deltaTime; 
@@ -431,14 +436,17 @@ function keyPressed(){
   }
   else if(stat == 2){
     if(key.toUpperCase() === currentLetter) {
+      audio_canya_be.play();
       currentLetter = randomLetter();
       fishScore -= (scoreChange + 20);
       if(fishScore <= 0){
+        audio_win_peix.play();
         stat = 3;
         felicitacio = random(felicitacions);
         millisInicial = millis();
       }
     } else {
+      audio_canya_malament.play();
       fishScore += scoreChange;
         if(fishScore >= minFishScore){
           fishScore = minFishScore;

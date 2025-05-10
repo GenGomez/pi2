@@ -21,7 +21,7 @@ let cooldownSonar = 10000;
 let sonarUsos = 3;
 let sonarUsable = true;
 let countdownDuration = 5000;
-let stat = 0;
+let stat = -2;
 let indexPeix = 0;
 let letters = "JKL";
 let currentLetter;
@@ -114,6 +114,7 @@ function preload(){
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
 
   missatge = loadImage("img/world/message.png");
+  portadaElsPescas = loadImage("img/world/portadaElsPescas.png");
 
 }
 
@@ -141,7 +142,7 @@ function draw() {
   textStyle(NORMAL);
   if(!musica_bg.isPlaying()){
     musica_bg.play();
-  }
+  } // Pescant amb el baixell
   if(stat == 0){
     gameTime += deltaTime;
     timeGameLeft -= deltaTime; 
@@ -206,7 +207,7 @@ function draw() {
     //fill(0,0,0,nitOpacity);
     //rect(0,width,0,height);
 
-  }
+  } // Preparat per pescar
   else if(stat == 1){
     
     backgroundMinijocImg.resize(0,height);
@@ -230,7 +231,7 @@ function draw() {
       currentLetter = randomLetter();
       nPeixos--;
     } 
-  }
+  } // Minijoc de pesca J K L
   else if(stat == 2){
     backgroundMinijocImg.resize(0,height);
     baixellMiniImg.resize(width * 0.8,0);
@@ -260,7 +261,7 @@ function draw() {
     if(fishScore >= minFishScore){
       fishScore = minFishScore;
     }
-  }
+  } // Felicitacio per pescar
   else if (stat == 3) {
     backgroundMinijocImg.resize(0,height);
     image(backgroundMinijocImg,width/2,height/2);
@@ -277,7 +278,8 @@ function draw() {
     image(peixos[indexPeix].img, width / 2, height * 0.6, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
 
 
-  }else if(stat == 4){
+  } // Felicitacio per dia complert
+  else if(stat == 4){
     backgroundMinijocImg.resize(0,height);
     image(backgroundMinijocImg,width/2,height/2);
     missatge.resize(0,width);
@@ -293,6 +295,35 @@ function draw() {
         textSize(20);
         text(felicitacioFinal.replaceAll("{X}", numDia.toString()),width / 2, height / 4);
       }
+  } // Pantalla de tutorial
+  else if(stat == -1){
+    backgroundMinijocImg.resize(0,height);
+    image(backgroundMinijocImg,width/2,height/2);
+    missatge.resize(0,width);
+    image(missatge,width/2, height/2);
+    textSize(45);
+    fill(255);
+    textStyle(BOLD)
+    text("Tutorial", width / 2, height * 0.3);
+    textSize(25);
+    text("Mou el baixell amb la palanca", width / 2, height * 0.45);
+    text("Per pescar un peix, prem el boto\n del color correcte!", width / 2, height * 0.60);
+    text("Prem els botons per activar el sonar!", width / 2, height * 0.75);
+  } // Pantalla de presentacio
+  else if(stat == -2){
+    portadaElsPescas.resize(0,height);
+    image(portadaElsPescas,width/2,height/2);
+    push();
+    strokeWeight(4);
+    stroke(255,215,0,255);
+    fill(189,30,30,255);
+    rect(width / 2 - 325,height / 1.2 - 37.5,650,75, 20);
+    textSize(30);
+    noStroke();
+    fill(255);
+    textStyle(BOLD)
+    text("Prem qualsevol boto per començar", width / 2, height / 1.2);
+    pop();
   }
 }
 
@@ -389,7 +420,8 @@ function dibuixarSonar(){
 }
 
 function keyPressed(){
-  console.log(key); // This will log the key pressed
+  // This will log the key pressed
+  console.log(key);
   if(stat == 0){
     if(sonarUsable == true){
       if(key === ' ') {
@@ -468,6 +500,18 @@ function keyPressed(){
         stat = 0;
       }
   }
+  else if(stat == -1){
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
+      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+        stat = 0;
+      }
+  }
+  else if(stat == -2){
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
+      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+        stat = -1;
+      }
+  }
 }
 
 function keyReleased(){
@@ -497,8 +541,6 @@ function keyReleased(){
     }
   }
 }
-
-
 
 function randomLetter() {
   return letters.charAt(floor(random(letters.length)));

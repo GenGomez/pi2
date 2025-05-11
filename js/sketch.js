@@ -104,15 +104,14 @@ function preload(){
   baixellMiniImg = loadImage("img/minigame/baxeillMinijoc.png");
   canyaImg = loadImage("img/minigame/fishingRod.png");
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
-  soundFormats('mp3','wav');
+  soundFormats('wav');
   musica_bg = loadSound('audio/bg_music.wav');
-  audio_sonar = loadSound('audio/sonar-ping.wav');
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
+  audio_sonar3 = loadSound('audio/sonar-ping.wav');
   audio_win_peix = loadSound('audio/win_peixets.wav');
-  audio_canya_be = loadSound('audio/so_canya_pescar.mp3');
+  audio_canya_be = loadSound('audio/so_canya_pescar.wav');
   audio_canya_malament = loadSound('audio/splash.wav');
-  audio_motor = loadSound('audio/motor.mp3');
 
   missatge = loadImage("img/world/message.png");
   portadaElsPescas = loadImage("img/world/portadaElsPescas.png");
@@ -432,7 +431,6 @@ function dibuixarSonar(){
 function keyPressed(){
   // This will log the key pressed
   if(stat == 0){
-    audio_motor.play();
     if(sonarUsable == true){
       if(key === ' ') {
         sonarUsable = false;
@@ -441,9 +439,9 @@ function keyPressed(){
           peixos[i].revelar()
         }
         waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
-        audio_sonar.play();
         audio_sonar1.play();
         audio_sonar2.play();
+        audio_sonar3.play();
         
       }
     }
@@ -542,7 +540,6 @@ function keyPressed(){
 
 function keyReleased(){
   if(stat == 0){
-    audio_motor.stop();
     if(key == 'ArrowUp' || key == 'W' || key == 'w') {
       if(directY < 0){
         directY = 0;

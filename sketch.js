@@ -105,11 +105,11 @@ function preload(){
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
   soundFormats('mp3','wav');
   musica_bg = loadSound('audio/bg_music.wav');
-  audio_sonar = loadSound('audio/sonar-ping.wav');
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
+  audio_sonar3 = loadSound('audio/sonar-ping.wav');
   audio_win_peix = loadSound('audio/win_peixets.wav');
-  audio_canya_be = loadSound('audio/so_canya_pescar.mp3');
+  audio_canya_be = loadSound('audio/so_canya_pescar.wav');
   audio_canya_malament = loadSound('audio/splash.wav');
 
   missatge = loadImage("img/world/message.png");
@@ -183,9 +183,7 @@ function draw() {
     if(timerSonar < millis()){
       sonarUsable = true;
     }
-    
-
-
+  
     posX = posX + (directX * speed * deltaTime);
     posY = posY + (directY * speed * deltaTime);
     
@@ -310,10 +308,10 @@ function draw() {
     image(backgroundMinijocImg,width/2,height/2);
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
-    textSize(height/35 + 10);
+    textSize(height/20 + 10);
     fill(255);
     textStyle(BOLD)
-    text("Tutorial", width / 2, height * 0.3);
+    text("Instruccions", width / 2, height * 0.3);
     textSize(height/35 + 5);
     text("Mou el baixell amb la palanca", width / 2, height * 0.45);
     text("Per pescar un peix, prem el boto\n del color correcte!", width / 2, height * 0.60);
@@ -449,9 +447,9 @@ function keyPressed(){
           peixos[i].revelar()
         }
         waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
-        audio_sonar.play();
         audio_sonar1.play();
         audio_sonar2.play();
+        audio_sonar3.play();
         
       }
     }
@@ -483,7 +481,7 @@ function keyPressed(){
         felicitacio = random(felicitacions);
         millisInicial = millis();
       }
-    } else {
+    } else if(key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
       audio_canya_malament.play();
       fishScore += scoreChange;
         if(fishScore >= minFishScore){

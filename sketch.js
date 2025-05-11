@@ -1,9 +1,10 @@
 const gridSize = 8;
 let rectSize;
 const borderSize = 50;
+let canvaSize;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
-let fonsAnimat;
+//let fonsAnimat;
 let nPeixosIni = 3;
 let nPeixos;
 let peixos = [];
@@ -80,7 +81,7 @@ felicitacionsFinal = [
   let felicitacioFinal;
 
 function preload(){
-  fonsAnimat = loadImage("img/world/background.gif");
+  //fonsAnimat = loadImage("img/world/background.gif");
 
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
@@ -118,7 +119,6 @@ function preload(){
 }
 
 function setup() {
-  let canvaSize;
   if(window.innerHeight >= window.innerWidth){
     canvaSize = window.innerWidth;
   }
@@ -126,11 +126,11 @@ function setup() {
     canvaSize = window.innerHeight;
   }
   createCanvas(canvaSize, canvaSize);
-  fonsAnimat.play();
+  //fonsAnimat.play();
   nPeixos = nPeixosIni;
-  rectSize = (height-borderSize)/gridSize;
-  posY = (height- (rectSize/2));
-  posX = (height+borderSize)/2;
+  rectSize = (canvaSize-borderSize)/gridSize;
+  posY = (canvaSize- (rectSize/2));
+  posX = (canvaSize+borderSize)/2;
   for(let i = 0; i < nPeixos; i++){
     generarPeix();
   } 
@@ -158,8 +158,10 @@ function draw() {
     dibuixarTaulell();
 
     fill(255,0,0);
-    let posXQ = round(((posX + borderSize) - rectSize/4) /rectSize) - 1;
-    let posYQ = round(((posY + borderSize) - rectSize/4) /rectSize) - 1;
+    let posXQ = Math.round(((posX + (rectSize/2) - borderSize)/rectSize)) - 1
+    posXQ = constrain(posXQ,0,gridSize-1)
+    let posYQ = Math.round(((posY + (rectSize/2) - borderSize)/rectSize)) - 1
+    posYQ = constrain(posYQ,0,gridSize-1)
     if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
       for(let i = 0; i < peixos.length; i++){
         peixos[i].revelar()
@@ -187,18 +189,18 @@ function draw() {
     posX = posX + (directX * speed * deltaTime);
     posY = posY + (directY * speed * deltaTime);
     
-    if(posX < borderSize + (rectSize/4)){
-      posX = borderSize + (rectSize/4);
+    if(posX < borderSize){
+      posX = borderSize;
     }
-    if(posY < borderSize + (rectSize/4)){
-      posY = borderSize + (rectSize/4);
+    if(posY < borderSize){
+      posY = borderSize;
     }
     
-    if(posX > width - (rectSize/4)){
-      posX = width - (rectSize/4);
+    if(posX > canvaSize){
+      posX = canvaSize;
     }
-    if(posY > height - (rectSize/4)){
-      posY = height - (rectSize/4);
+    if(posY > canvaSize){
+      posY = canvaSize;
     }  
 
     if(timeGameLeft <= 10000){
@@ -206,7 +208,7 @@ function draw() {
       rectMode(CORNER);
       let nitOpacity = map(timeGameLeft,10000,0,0,160);
       fill(0,11,89,nitOpacity);
-      rect(borderSize,borderSize,width,height);
+      rect(borderSize,borderSize,canvaSize,canvaSize);
       pop();
     }
 
@@ -375,8 +377,8 @@ function generarPeix(){
 
 
 function dibuixarTaulell(){
-
-  image(fonsAnimat,width/2,width/2,width,width);
+  background(255);
+  //image(fonsAnimat,width/2,width/2,width,width);
   fill(255);
   stroke(0);
   strokeWeight(1);

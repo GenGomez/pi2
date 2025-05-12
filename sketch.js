@@ -112,6 +112,7 @@ function preload(){
   audio_win_peix = loadSound('audio/win_peixets.wav');
   audio_canya_be = loadSound('audio/so_canya_pescar.wav');
   audio_canya_malament = loadSound('audio/splash.wav');
+  audio_passar_dia = loadSound('audio/passardedia.mp3');
 
   missatge = loadImage("img/world/message.png");
   portadaElsPescas = loadImage("img/world/portadaElsPescas.png");
@@ -139,12 +140,14 @@ function setup() {
   imageMode(CENTER);
   angleMode(DEGREES);
   millisInicial = millis();
+  musica_bg.setVolume(0.2);
   musica_bg.play();
 }
 
 function draw() {
   textStyle(NORMAL);
   if(!musica_bg.isPlaying()){
+    musica_bg.setVolume(0.2);
     musica_bg.play();
     //musica_bg.rate() aixo serverix x canviar la velocitat del audio
   } // Pescant amb el baixell
@@ -181,8 +184,8 @@ function draw() {
   
     //circle(posX,posY,rectSize/2);
     dibuixarBaixell(posX,posY,rectSize);
-  
-    if(timerSonar < millis()){
+    timerSonar -= deltaTime;
+    if(timerSonar <= 0){
       sonarUsable = true;
     }
   
@@ -449,7 +452,7 @@ function keyPressed(){
     if(sonarUsable == true){
       if((key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L')) {
         sonarUsable = false;
-        timerSonar = millis() + cooldownSonar;
+        timerSonar = 10000;
         for(let i = 0; i < nPeixos; i++){
           peixos[i].revelar()
         }
@@ -489,6 +492,7 @@ function keyPressed(){
         millisInicial = millis();
       }
     } else if(key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
+      audio_canya_malament.setVolume(1);
       audio_canya_malament.play();
       fishScore += scoreChange;
         if(fishScore >= minFishScore){
@@ -503,6 +507,7 @@ function keyPressed(){
       if(nPeixos == 0){
         numDia ++;
         stat = 4;
+        audio_passar_dia.play();
       }
       else{
         stat = 0;

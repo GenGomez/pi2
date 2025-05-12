@@ -540,6 +540,8 @@ function keyPressed(){
         posX = (height+borderSize)/2;
         timeGameMax = timeGameInicial
         timeGameLeft = timeGameMax;
+        directX = 0;
+        directY = 0;
         millisInicial = millis();
         stat = -2;
       }

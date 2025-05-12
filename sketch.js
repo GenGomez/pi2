@@ -100,7 +100,7 @@ function preload(){
   baixellImg[0][2] = loadImage("img/ship/-1,1.png");
   baixellImg[0][1] = loadImage("img/ship/-1,0.png");
   
-
+  boia = loadImage("img/world/buoy.png");
   baixellMiniImg = loadImage("img/minigame/baxeillMinijoc.png");
   canyaImg = loadImage("img/minigame/fishingRod.png");
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
@@ -387,6 +387,12 @@ function dibuixarTaulell(){
       rect((i*rectSize) + borderSize, (j*rectSize) + borderSize, rectSize, rectSize);
     }
   }
+  push();
+  imageMode(CENTER);
+  boia.resize(rectSize,0);
+  image(boia,(canvaSize + borderSize)/2 +  rectSize,canvaSize-rectSize*1.25)
+  image(boia,(canvaSize + borderSize)/2 -  rectSize,canvaSize-rectSize*1.25)
+  pop();
   dibuixarSonar();
   textSize(tamanyText);
   fill(222);

@@ -582,5 +582,5 @@ function randomLetter() {
 function getBackgroundColor(letter) {
   if (letter === 'J') return color(0, 0, 255,204); // Blau
   if (letter === 'K') return color(255, 0, 0,204); // Vermell
-  if (letter === 'L') return color(0, 255, 0,204); // Verd
+  if (letter === 'L') return color(255, 255, 0,204); // Groc
 }

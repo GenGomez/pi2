@@ -310,7 +310,7 @@ function draw() {
     image(backgroundMinijocImg,width/2,height/2);
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
-    textSize(height/20 + 10);
+    textSize(height/10 + 10);
     fill(255);
     textStyle(BOLD)
     text("Instruccions", width / 2, height * 0.3);

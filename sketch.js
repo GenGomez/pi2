@@ -81,7 +81,7 @@ felicitacionsFinal = [
   let felicitacioFinal;
 
 function preload(){
-  //fonsAnimat = loadImage("img/world/background.gif");
+  fonsMar = loadImage("img/world/sea.png");
 
   peixosImg[0] = loadImage("img/fish/whiteSmallFish.png");
   peixosImg[1] = loadImage("img/fish/whiteMediumFish.png");
@@ -377,8 +377,7 @@ function generarPeix(){
 
 
 function dibuixarTaulell(){
-  background(255);
-  //image(fonsAnimat,width/2,width/2,width,width);
+  image(fonsMar,width/2,width/2,width,width);
   fill(255);
   stroke(0);
   strokeWeight(1);

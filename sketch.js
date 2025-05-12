@@ -32,7 +32,7 @@ let timeGameInicial = 100000;
 let timeGameMax = timeGameInicial;
 let timeGameLeft = timeGameMax;
 let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
-  "Compte, que amb aquest ritme acabaràs\n buidant tot el riu!",
+  "Compte, que amb aquest ritme acabaràs\n buidant tot el mar!",
   "Avi, t’hauríem d’anomenar el mestre\n pescador virtual! Quin art!",
   "Amb aquestes mans, podries pescar\n fins i tot un tauró!",
   "No és sort, és talent! Ja pots donar\n classes de pesca!"];
@@ -315,7 +315,7 @@ function draw() {
     textStyle(BOLD)
     text("Instruccions", width / 2, height * 0.3);
     textSize(height/35 + 5);
-    text("Mou el baixell amb la palanca", width / 2, height * 0.45);
+    text("Mou el vaixell amb la palanca", width / 2, height * 0.45);
     text("Per pescar un peix, prem el boto\n del color correcte!", width / 2, height * 0.60);
     text("Prem els botons per activar el sonar!", width / 2, height * 0.75);
   } // Pantalla de presentacio
@@ -447,7 +447,7 @@ function keyPressed(){
   // This will log the key pressed
   if(stat == 0){
     if(sonarUsable == true){
-      if(key === ' ') {
+      if((key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L')) {
         sonarUsable = false;
         timerSonar = millis() + cooldownSonar;
         for(let i = 0; i < nPeixos; i++){

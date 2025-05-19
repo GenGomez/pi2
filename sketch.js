@@ -25,6 +25,8 @@ let stat = -2;
 let indexPeix = 0;
 let letters = "JKL";
 let currentLetter;
+let puls = 1;
+let pulsDir = 1;
 let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
@@ -105,6 +107,7 @@ function preload(){
   canyaImg = loadImage("img/minigame/fishingRod.png");
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
   soundFormats('mp3','wav');
+
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
   audio_sonar3 = loadSound('audio/sonar-ping.wav');
@@ -255,7 +258,14 @@ function draw() {
     fill(0,0);
     strokeWeight(40);
     stroke(getBackgroundColor(currentLetter));
-    circle(0,0,drawSize);
+    if(puls >= 1.2){
+      pulsDir =  -1;
+    }
+    else if(puls <= 0.8){
+      pulsDir = 1;
+    }
+    puls += 0.01 * pulsDir;
+    circle(0,0,drawSize * puls);
     rotate(90);
     image(peixos[indexPeix].img,0,0,drawSize,drawSize);
     pop();
@@ -348,11 +358,18 @@ function draw() {
 
 function dibuixarBaixell(x,y,size){
   if(sonarUsable){
+    if(puls >= 1.2){
+      pulsDir =  -1;
+    }
+    else if(puls <= 0.8){
+      pulsDir = 1;
+    }
+    puls += 0.01 * pulsDir;
     push();
     fill(34, 194, 23,25);
     for(i=1;i<=10;i++){
       fill(34, 194, 23,25*i);
-      circle(x,y,size* (1 - (i/10)));
+      circle(x,y,size* (1 - (i/10)) * puls);
     }
     pop();
   }

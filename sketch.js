@@ -105,7 +105,6 @@ function preload(){
   canyaImg = loadImage("img/minigame/fishingRod.png");
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
   soundFormats('mp3','wav');
-  //musica_bg = loadSound('audio/bg_music.wav');
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
   audio_sonar3 = loadSound('audio/sonar-ping.wav');
@@ -140,17 +139,12 @@ function setup() {
   imageMode(CENTER);
   angleMode(DEGREES);
   millisInicial = millis();
-  musica_bg.setVolume(0.2);
-  musica_bg.play();
+
 }
 
 function draw() {
   textStyle(NORMAL);
-  if(!musica_bg.isPlaying()){
-    musica_bg.setVolume(0.2);
-    musica_bg.play();
-    //musica_bg.rate() aixo serverix x canviar la velocitat del audio
-  } // Pescant amb el baixell
+
   if(stat == 0){
     timeGameLeft -= deltaTime; 
     if (timeGameLeft <= 0) {

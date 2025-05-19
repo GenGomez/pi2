@@ -255,7 +255,7 @@ function draw() {
     //text("Press: " + currentLetter, width / 2, height / 2);
     //text("Timer: " + fishScore, width / 2, height / 2 + 40);
     strokeWeight(2);
-    let finishLine = map(fishScore,1000,0,height*0.6,height*0.1);
+    let finishLine = map(fishScore,1000,-300,height*0.6,height*0.1);
     line(width * 0.52,height*0.061,width*0.52,finishLine);
     push();
     let drawSize = map(peixos[indexPeix].fishLenght,10,100,100,300);

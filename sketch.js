@@ -142,14 +142,14 @@ function setup() {
   imageMode(CENTER);
   angleMode(DEGREES);
   millisInicial = millis();
-  musica_bg.setVolume(0.2);
+  musica_bg.setVolume(0);
   musica_bg.play();
 }
 
 function draw() {
   textStyle(NORMAL);
   if(!musica_bg.isPlaying()){
-    musica_bg.setVolume(0.2);
+    musica_bg.setVolume(0);
     musica_bg.play();
     //musica_bg.rate() aixo serverix x canviar la velocitat del audio
   } // Pescant amb el baixell
@@ -293,7 +293,19 @@ function draw() {
     textSize(height/15 + 10);
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.8);
     image(peixos[indexPeix].img, width / 2, height * 0.6, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
-
+    if(timeLeft <= 0) {
+      peixos.splice(indexPeix, 1);
+      if(nPeixos == 0){
+        numDia ++;
+        stat = 4;
+        audio_passar_dia.play();
+      }
+      else{
+        stat = 0;
+      }
+      directX = 0;
+      directY = 0;
+    }
 
   } // Felicitacio per dia complert
   else if(stat == 4){
@@ -514,22 +526,6 @@ function keyPressed(){
         if(fishScore >= minFishScore){
           fishScore = minFishScore;
         }
-    }
-  }
-  else if (stat == 3) {
-    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
-     || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
-      peixos.splice(indexPeix, 1);
-      if(nPeixos == 0){
-        numDia ++;
-        stat = 4;
-        audio_passar_dia.play();
-      }
-      else{
-        stat = 0;
-      }
-      directX = 0;
-      directY = 0;
     }
   }
   else if(stat == 4){

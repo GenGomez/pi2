@@ -28,7 +28,7 @@ let currentLetter;
 let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
-let timeGameInicial = 100000;
+let timeGameInicial = 120000;
 let timeGameMax = timeGameInicial;
 let timeGameLeft = timeGameMax;
 let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
@@ -259,13 +259,13 @@ function draw() {
     let drawSize = map(peixos[indexPeix].fishLenght,10,100,100,300);
     translate((width * 0.52), finishLine + (drawSize * 0.4));
     fill(0,0);
-    strokeWeight(20);
+    strokeWeight(40);
     stroke(getBackgroundColor(currentLetter));
     circle(0,0,drawSize);
     rotate(90);
     image(peixos[indexPeix].img,0,0,drawSize,drawSize);
     pop();
-    fishScore++;
+    //fishScore++;
     if(fishScore >= minFishScore){
       fishScore = minFishScore;
     }

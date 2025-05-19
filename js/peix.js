@@ -4,7 +4,7 @@ class Peix{
     this.x = x;
     this.y = y;
     this.t = t;
-    this.llum = 1;
+    this.llum = 2;
     this.img = img[floor(random(3))];
     this.fishLenght = Math.floor(random(10,101));
     this.imgSize = Math.floor(map(this.fishLenght,10,100,width*0.2,width*0.85));
@@ -18,7 +18,7 @@ class Peix{
   }
   
   revelar(){
-    this.llum = 1;
+    this.llum = 2;
   }
   
   comparar(x,y){

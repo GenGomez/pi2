@@ -105,7 +105,7 @@ function preload(){
   canyaImg = loadImage("img/minigame/fishingRod.png");
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
   soundFormats('mp3','wav');
-  musica_bg = loadSound('audio/bg_music.wav');
+  //musica_bg = loadSound('audio/bg_music.wav');
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
   audio_sonar3 = loadSound('audio/sonar-ping.wav');

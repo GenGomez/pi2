@@ -421,11 +421,14 @@ function dibuixarTaulell(){
   pop();
   dibuixarSonar();
   textSize(tamanyText);
-  fill(222);
+  fill(0);
   strokeWeight(0)
   rect(0,0,width,borderSize);
   rect(0,0,borderSize,height);
-  fill(0);
+  fill(0,255,0);
+  let sonarFillAmount = map(timerSonar,10000,0,0,height)
+  rect(rect(0,height - sonarFillAmount,borderSize,sonarFillAmount));
+  /*fill(0);
   stroke(0);
   strokeWeight(0);
   textAlign(CENTER, CENTER);
@@ -435,7 +438,7 @@ function dibuixarTaulell(){
   
   for(let i = 1; i < gridSize+1; i++){
     text(i, borderSize/2,(((i - 1) * rectSize) + rectSize/2) + borderSize);
-  }
+  }*/
   
 }
 

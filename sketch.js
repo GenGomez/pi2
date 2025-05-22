@@ -289,6 +289,7 @@ function draw() {
     textSize(height/15 + 10);
     text(round(map(peixos[indexPeix].fishLenght, 10, 100, 10, 50), 2) + "cm", width / 2, height * 0.8);
     image(peixos[indexPeix].img, width / 2, height * 0.6, peixos[indexPeix].imgSize, peixos[indexPeix].imgSize);
+    text(floor(timeLeft / 1000) + 1, width * 0.9, height * 0.8);
     if(timeLeft <= 0) {
       peixos.splice(indexPeix, 1);
       if(nPeixos == 0){
@@ -307,12 +308,17 @@ function draw() {
   else if(stat == 4){
     backgroundMinijocImg.resize(0,height);
     image(backgroundMinijocImg,width/2,height/2);
+    timeLeft = countdownDuration - (millis() - millisInicial); 
     missatge.resize(0,width);
     image(missatge,width/2, height/2);
     fill(255);
     textStyle(BOLD)
     textSize(height/10 + 5);
     text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
+    text(floor(timeLeft / 1000) + 1, width * 0.9, height * 0.8);
+    if(timeLeft <= 0) {
+      stat = 1;
+    }
   }  //pantalla de derrota
   else if(stat == 5){
     backgroundMinijocImg.resize(0,height);

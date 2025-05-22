@@ -48,6 +48,7 @@ let pescat;
 // stat == -2 pantalla de presentacio
 // stat == -1 pantalla de tutorial
 // stat == 0 pescant amb el baixell
+// bool cinematica
 // stat == 1 preparat per pescar
 // stat == 2 minijoc de pesca J K L
 // stat == 3 felicitacio per pescar
@@ -55,6 +56,7 @@ let pescat;
 // stat == 5 perdut
 
 let musica;
+let cinematica = true;
 
 // array de imatges
 let baixellImg =[];
@@ -135,7 +137,7 @@ function setup() {
   //fonsAnimat.play();
   nPeixos = nPeixosIni;
   rectSize = (canvaSize-borderSize)/gridSize;
-  posY = (canvaSize- (rectSize/2));
+  posY = (canvaSize+rectSize);
   posX = (canvaSize+borderSize)/2;
   for(let i = 0; i < nPeixos; i++){
     generarPeix();
@@ -151,7 +153,7 @@ function setup() {
 function draw() {
   textStyle(NORMAL);
 
-  if(stat == 0){
+  if(stat == 0) {
     timeGameLeft -= deltaTime; 
     if (timeGameLeft <= 0) {
       felicitacioFinal = felicitacionsFinal[floor(random(0, felicitacionsFinal.length))];
@@ -193,19 +195,21 @@ function draw() {
     posX = posX + (directX * speed * deltaTime);
     posY = posY + (directY * speed * deltaTime);
     
-    if(posX < borderSize){
-      posX = borderSize;
+    if (!cinematica) {
+      if (posX < borderSize) {
+        posX = borderSize;
+      }
+      if (posY < borderSize) {
+        posY = borderSize;
+      }
+
+      if (posX > canvaSize) {
+        posX = canvaSize;
+      }
+      if (posY > canvaSize) {
+        posY = canvaSize;
+      }
     }
-    if(posY < borderSize){
-      posY = borderSize;
-    }
-    
-    if(posX > canvaSize){
-      posX = canvaSize;
-    }
-    if(posY > canvaSize){
-      posY = canvaSize;
-    }  
 
     if(timeGameLeft <= 10000){
       push()
@@ -216,6 +220,21 @@ function draw() {
       pop();
     }
 
+    if(cinematica && posY > (canvaSize-rectSize)) {
+      directY = -1;
+    } else if(cinematica && posY <= (canvaSize-rectSize)) {
+      directY = 0;
+      cinematica = false;
+      sonarUsable = false;
+        timerSonar = 10000;
+        for(let i = 0; i < nPeixos; i++){
+          peixos[i].revelar()
+        }
+        waves.push({ x: posX, y: posY, radius: 1, alpha: 255 });
+        audio_sonar1.play();
+        audio_sonar2.play();
+        audio_sonar3.play();
+    }
   } // Preparat per pescar
   else if(stat == 1){
     
@@ -504,7 +523,7 @@ function dibuixarSonar(){
 
 function keyPressed(){
   // This will log the key pressed
-  if(stat == 0){
+  if(stat == 0 && !cinematica){
     if(sonarUsable == true){
       if((key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L')) {
         sonarUsable = false;
@@ -516,7 +535,6 @@ function keyPressed(){
         audio_sonar1.play();
         audio_sonar2.play();
         audio_sonar3.play();
-        
       }
     }
     
@@ -597,7 +615,7 @@ function keyPressed(){
 }
 
 function keyReleased(){
-  if(stat == 0){
+  if(stat == 0 && !cinematica){
     if(key == 'ArrowUp' || key == 'W' || key == 'w') {
       if(directY < 0){
         directY = 0;

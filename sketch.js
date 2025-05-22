@@ -30,7 +30,7 @@ let pulsDir = 1;
 let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
-let timeGameInicial = 120000;
+let timeGameInicial = 20000;
 let timeGameMax = timeGameInicial;
 let timeGameLeft = timeGameMax;
 let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
@@ -107,6 +107,9 @@ function preload(){
   canyaImg = loadImage("img/minigame/fishingRod.png");
   backgroundMinijocImg= loadImage("img/minigame/fonsMinijoc.png");
   soundFormats('mp3','wav');
+
+  moon = loadImage("img/world/moon.png");
+  sun = loadImage("img/world/sun.png");
 
   audio_sonar1 = loadSound('audio/sonar-ping.wav');
   audio_sonar2 = loadSound('audio/sonar-ping.wav');
@@ -427,14 +430,34 @@ function dibuixarTaulell(){
   image(boia,(canvaSize + borderSize)/2 -  rectSize,canvaSize-rectSize*1.25)
   pop();
   dibuixarSonar();
-  textSize(tamanyText);
-  fill(0);
+  //moon.resize(borderSize,borderSize);
+  sun.resize(borderSize,borderSize);
+
   strokeWeight(0)
-  rect(0,0,width,borderSize);
+  fill(255);
   rect(0,0,borderSize,height);
+  /*fill(255);
+  rect(0,0,width,borderSize);*/
   fill(0,255,0);
   let sonarFillAmount = map(timerSonar,10000,0,0,height)
   rect(rect(0,height - sonarFillAmount + borderSize,borderSize,sonarFillAmount));
+  fill(255,0,0);
+  /*let timeFillAmount = map(timeGameLeft,timeGameMax,0,0,width)
+  rect(rect(0,0,timeFillAmount,borderSize));*/
+
+  let sunPos = map(timeGameLeft,timeGameMax,0,0,width);
+  let timeFillAmount = map(timeGameLeft,timeGameMax,0,100,20)
+  push();
+  colorMode(HSB);
+  fill(195,100,timeFillAmount);
+  rect(0,0,width,borderSize)
+  pop();
+
+  push();
+  imageMode(CORNER);
+  image(sun,sunPos,0);
+  //image(moon,width-borderSize,0);
+  pop();
   /*fill(0);
   stroke(0);
   strokeWeight(0);

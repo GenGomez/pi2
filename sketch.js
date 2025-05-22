@@ -31,7 +31,7 @@ let pulsDir = 1;
 let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
-let timeGameInicial = 120000;
+let timeGameInicial = 30000;
 let timeGameMax = timeGameInicial;
 let timeGameLeft = timeGameMax;
 let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
@@ -275,6 +275,7 @@ function draw() {
     //text("Timer: " + fishScore, width / 2, height / 2 + 40);
     strokeWeight(2);
     let finishLine = map(fishScore,1000,-300,height*0.6,height*0.1);
+    stroke(0);
     line(width * 0.52,height*0.061,width*0.52,finishLine);
     push();
     let drawSize = map(peixos[indexPeix].fishLenght,10,100,100,300);
@@ -602,6 +603,7 @@ function keyPressed(){
         posX = (height+borderSize)/2;
         timeGameMax = timeGameInicial
         timeGameLeft = timeGameMax;
+        numDia = 0;
         directX = 0;
         directY = 0;
         millisInicial = millis();

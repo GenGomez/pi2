@@ -185,6 +185,7 @@ function draw() {
     dibuixarBaixell(posX,posY,rectSize);
     timerSonar -= deltaTime;
     if(timerSonar <= 0){
+      timerSonar = 0;
       sonarUsable = true;
     }
   
@@ -452,7 +453,7 @@ function dibuixarTaulell(){
   rect(0,0,borderSize,height);
   fill(0,255,0);
   let sonarFillAmount = map(timerSonar,10000,0,0,height)
-  rect(rect(0,height - sonarFillAmount,borderSize,sonarFillAmount));
+  rect(rect(0,height - sonarFillAmount + borderSize,borderSize,sonarFillAmount));
   /*fill(0);
   stroke(0);
   strokeWeight(0);
@@ -551,8 +552,7 @@ function keyPressed(){
     }
   }
   else if(stat == 4){
-    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
-      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
         nPeixos = nPeixosIni
         for(let i = 0; i<nPeixos; i++){
           generarPeix();
@@ -563,8 +563,7 @@ function keyPressed(){
       }
   }
   else if(stat == 5){
-    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
-      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
         nPeixos = nPeixosIni
         peixos=[];
         for(let i = 0; i<nPeixos; i++){
@@ -581,14 +580,12 @@ function keyPressed(){
       }
   }
   else if(stat == -1){
-    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
-      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
         stat = 0;
       }
   }
   else if(stat == -2){
-    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L'
-      || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D' || key == 'w' || key == 'W') {
+    if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
         stat = -1;
       }
   }

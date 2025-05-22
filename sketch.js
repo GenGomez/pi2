@@ -5,6 +5,7 @@ let canvaSize;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
 //let fonsAnimat;
+//comentari oopsi
 let nPeixosIni = 1;
 let nPeixos;
 let peixos = [];

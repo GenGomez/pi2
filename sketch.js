@@ -1,11 +1,11 @@
-const gridSize = 8;
+const gridSize = 4;
 let rectSize;
 const borderSize = 50;
 let canvaSize;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ"
 let tamanyText = borderSize/3;
 //let fonsAnimat;
-let nPeixosIni = 3;
+let nPeixosIni = 1;
 let nPeixos;
 let peixos = [];
 let taulell = [];
@@ -316,6 +316,7 @@ function draw() {
       peixos.splice(indexPeix, 1);
       if(nPeixos == 0){
         numDia ++;
+        millisInicial = millis();
         stat = 4;
         audio_passar_dia.play();
       }
@@ -339,7 +340,11 @@ function draw() {
     text("Dia "+numDia+"\nsobreviscut",width / 2, height / 2);
     text(floor(timeLeft / 1000) + 1, width * 0.9, height * 0.8);
     if(timeLeft <= 0) {
-      stat = 1;
+      nPeixos = nPeixosIni
+      for(let i = 0; i<nPeixos; i++){
+        generarPeix();
+      }
+      stat = 0;
     }
   }  //pantalla de derrota
   else if(stat == 5){
@@ -459,7 +464,7 @@ function dibuixarTaulell(){
   rect(0,0,width,borderSize);*/
   fill(0,255,0);
   let sonarFillAmount = map(timerSonar,10000,0,0,height)
-  rect(rect(0,height - sonarFillAmount + borderSize,borderSize,sonarFillAmount));
+  rect(0,height - sonarFillAmount + borderSize,borderSize,sonarFillAmount);
   fill(255,0,0);
   /*let timeFillAmount = map(timeGameLeft,timeGameMax,0,0,width)
   rect(rect(0,0,timeFillAmount,borderSize));*/

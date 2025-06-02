@@ -1,4 +1,4 @@
-const gridSize = 4;
+const gridSize = 8;
 let rectSize;
 const borderSize = 50;
 let canvaSize;
@@ -31,7 +31,7 @@ let pulsDir = 1;
 let fishScore = 1000;
 let minFishScore = 1000;
 let scoreChange = 130;
-let timeGameInicial = 30000;
+let timeGameInicial = 120000;
 let timeGameMax = timeGameInicial;
 let timeGameLeft = timeGameMax;
 let felicitacions = ["Ets el rei de la pesca! Aquest peix\n ja sabia que no tenia escapatòria!",
@@ -168,11 +168,11 @@ function draw() {
     posXQ = constrain(posXQ,0,gridSize-1)
     let posYQ = Math.round(((posY + (rectSize/2) - borderSize)/rectSize)) - 1
     posYQ = constrain(posYQ,0,gridSize-1)
-    if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
+    /*if(posYQ >= gridSize -2 && posXQ <= ceil(gridSize/2) && posXQ >= floor(gridSize/2)-1){
       for(let i = 0; i < peixos.length; i++){
         peixos[i].revelar()
       }
-    }
+    }*/
     for(let i = 0; i < peixos.length; i++){
       if(peixos[i].comparar(posXQ,posYQ)){
         indexPeix = i;
@@ -346,6 +346,12 @@ function draw() {
       for(let i = 0; i<nPeixos; i++){
         generarPeix();
       }
+      timeGameMax *= 0.9;
+      timeGameLeft = timeGameMax;
+      cinematica = true;
+      timerSonar = 0;
+      posY = (canvaSize+rectSize);
+      posX = (canvaSize+borderSize)/2;
       stat = 0;
     }
   }  //pantalla de derrota
@@ -451,9 +457,6 @@ function dibuixarTaulell(){
   }
   push();
   imageMode(CENTER);
-  boia.resize(rectSize,0);
-  image(boia,(canvaSize + borderSize)/2 +  rectSize,canvaSize-rectSize*1.25)
-  image(boia,(canvaSize + borderSize)/2 -  rectSize,canvaSize-rectSize*1.25)
   pop();
   dibuixarSonar();
   //moon.resize(borderSize,borderSize);
@@ -581,7 +584,7 @@ function keyPressed(){
         }
     }
   }
-  else if(stat == 4){
+  /*else if(stat == 4){
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
         nPeixos = nPeixosIni
         for(let i = 0; i<nPeixos; i++){
@@ -591,7 +594,7 @@ function keyPressed(){
         posX = (height+borderSize)/2;
         stat = 0;
       }
-  }
+  }*/
   else if(stat == 5){
     if (key == 'j' || key == 'J' || key == 'k' || key == 'K' || key == 'l' || key == 'L') {
         nPeixos = nPeixosIni
